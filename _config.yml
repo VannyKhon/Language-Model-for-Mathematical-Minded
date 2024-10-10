@@ -1,0 +1,5 @@
+title: "Language Model for Mathematical Minded"
+description: "A comprehensive guide from neural networks to transformers."
+baseurl: "/Language-Model-for-Mathematical-Minded" # Set this to the repository name if you are not using a custom domain.
+url: "https://vannykhon.github.io" # This is the main URL for GitHub Pages.
+theme: jekyll-theme-minimal # You can choose a different theme if you prefer.
