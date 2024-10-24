@@ -7476,119 +7476,301 @@ a.anchor-link {
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ad0a73f0-8f42-4d8d-981b-4766a91498d3">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ab086648-42f5-454b-9973-4c37e3742b1f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 style="text-align: center; font-size: 50px;">Language Model for Mathematicians </h1>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b3497560-bce3-4d5f-ba09-9c4fc766a706">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>In this note, I will try to describe deep learning based language models. I try to present the model as mathematically concise as possible and along the way I will try to motivate terms involve. We will start with neural networks and walk our way till we get to transfromer based models, the model used in the making ChatGPT. In the end, I will explain my thoughts on why these things work, and pose some questions that I think important. I will also try to show the coding part of all these, and for this, I used PyTorch.</p>
-<p>I think Artificial Intellegence is one of the most consequential technology in our life time. And it is different from our technologies in that it is not hard to learn. It has so many potential uses and misuse. It is important that enough good people know it and hopefully we could stir it in a good direction.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ad289dca-c385-42fe-962a-55da37cc2ab1">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<!DOCTYPE html>
-
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<style>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Model for Mathematicians</title>
+    <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.4;
-            margin: 30px;
-            background-color: #f8f9fa;
-            font-size: 14px; /* Adjusted for smaller font size */
+            font-family: Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
         }
-        h1 {
-            font-size: 24px; /* Smaller title */
-            margin-bottom: 14px;
+
+        /* Scoped Styling for the Title Section */
+        .title-section {
+            margin-top: 120px; /* Adjust this value to bring the section down */
         }
-        ul {
-            list-style: none;
-            padding: 0;
+        .title-section h1 {
+            text-align: center;
+            font-size: 48px;
+            margin-top: 30px;
+            margin-bottom: 60px;
+            color: black; /* Changed back to black */
         }
-        li {
-            margin: 8px 0;
+
+        .title-section h3 {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 10px;
+            margin-bottom: 50px;
+            color: black; /* Changed back to black */
         }
-        .main-item {
+
+        .title-section a {
+            color: black; /* Changed link color to black */
+            text-decoration: none;
+        }
+
+        .details-section {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .details-section div {
+            text-align: left;
+        }
+
+        .details h4 {
+            margin: 0 0 10px 0;
+            color: gray;
+            text-transform: uppercase;
+            font-size: 14px;
             font-weight: bold;
-            font-size: 1em; /* Smaller main items */
         }
-        .sub-item {
-            margin-left: 20px;
-            font-size: 0.9em; /* Slightly smaller sub-items */
-            font-weight: normal;
+
+        .details p {
+            margin: 5px 0;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
-<h1>Table of Contents</h1>
-<ul>
-<li class="main-item">1. <b>Introduction: Neural Work</b>
-<ul>
-<li class="sub-item">1.1 Coding with Pytorch</li>
-</ul>
-</li>
-<li class="main-item">2. <b>Universal Approximation Theorems</b></li>
-<li class="main-item">3. <b>Gradient Descent Algorithms</b>
-<ul>
-<li class="sub-item">3.1 Stochastic Gradient Descent</li>
-</ul>
-</li>
-<li class="main-item">4. <b>Cross-Entropy Loss</b></li>
-<li class="main-item">5. <b>Recurrent Neural Network: RNN</b>
-<ul>
-<li class="sub-item">5.1 LSTM</li>
-<li class="sub-item">5.2 GRU</li>
-</ul>
-</li>
-<li class="main-item">6. <b>RNN-based Language Model</b></li>
-<li class="main-item">7. <b>Transformer</b></li>
-<li class="main-item">8. <b>My Thoughts</b>
-<ul>
-<li class="sub-item">8.1 The Question of Understanding</li>
-<li class="sub-item">8.2 The Question of Complexity</li>
-<li class="sub-item">8.3 The Question of Reasoning</li>
-<li class="sub-item">8.4 Language Model or Culture Model?</li>
-</ul>
-</li>
-</ul>
+
+<div class="title-section">
+    <h1>Language Models for Mathematicians</h1>
+
+    <h3>
+        Vanny Khon, <a href="mailto:khonvanny@gmail.com">vanny@bu.edu</a><br/>
+    </h3>
+</div>
+
+<div class="details-section">
+    <div class="details">
+        <h4>Affiliation</h4>
+        <p>Boston University</p>
+    </div>
+    <div class="details">
+        <h4>Published</h4>
+        <p>October 23, 2024</p>
+    </div>
+</div>
+
 </body>
-</html>
+
+
+<p style="text-align: justify; line-height: 1.8; margin: 15px 130px; font-size: 18px;">
+    In this note, I will try to describe deep learning based language models. I try to present the model as mathematically 
+    concise as possible and along the way I will try to motivate terms involved. We will start with neural networks and walk 
+    our way till we get to transformer-based language models, the model used in the making of ChatGPT. In the end, I will 
+    explain my thoughts on why these things work, and pose some questions that I think are important. I will also try to 
+    show the coding part of all these, and for this, I used PyTorch.
+</p>
+<p style="text-align: justify; line-height: 1.8; margin: 15px 130px; font-size: 18px;">
+    I think Artificial Intelligence is one of the most consequential technologies in our lifetime. It is different from other 
+    technologies in that it is not hard to learn. It has so many potential uses and misuses. It is important that enough good 
+    people know it, and hopefully, we can steer it in a good direction. To be able to do something with a language model, 
+    we need to at least understand the model and be able to implement it.
+</p>
+<p style="text-align: justify; line-height: 1.8; margin: 35px 130px; font-size: 18px;">
+    I recommend the reader to read the "theory part" to get conceptual understanding first, and then proceed to read 
+    the code to try to implement it.
+</p>
 </div>
 </div>
 </div>
 </div>
+<div style="margin-left: 0px; font-size: 30px !important;"> <!-- Adjusted margin-left -->
+  <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ad289dca-c385-42fe-962a-55da37cc2ab1">
+      <div class="jp-Cell-inputWrapper" tabindex="0">
+          <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser"></div>
+          <div class="jp-InputArea jp-Cell-inputArea">
+              <div class="jp-InputPrompt jp-InputArea-prompt"></div>
+              <div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+                  <h2 id="Table-of-Contents" style="font-size: 24px !important; margin-bottom: 10px;">
+                      Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a>
+                  </h2>
+                  <ol style="margin-top: 0; padding-left: 20px;"> <!-- Adjusted spacing between list items -->
+                      <li style="margin-bottom: 0px;">
+                          <p style="margin-bottom: 0px;"><strong>Introduction: Neural Work</strong></p>
+                          <ul style="margin-top: 0;">
+                              <li style="margin-bottom: 5px;">1.1 Coding with Pytorch</li>
+                          </ul>
+                      </li>
+                      <li style="margin-bottom: 0px;"><p><strong>Universal Approximation Theorems</strong></p></li>
+                      <li style="margin-bottom: 0px;">
+                          <p><strong>Gradient Descent Algorithms</strong></p>
+                          <ul style="margin-top: 0;">
+                              <li style="margin-bottom: 0px;">3.1 Stochastic Gradient Descent</li>
+                          </ul>
+                      </li>
+                      <li style="margin-bottom: 0px;"><p><strong>Cross-Entropy Loss</strong></p></li>
+                      <li style="margin-bottom: 0px;">
+                          <p><strong>Recurrent Neural Network: RNN</strong></p>
+                          <ul style="margin-top: 0;">
+                              <li style="margin-bottom: 0px;">5.1 RNN</li>
+                              <li style="margin-bottom: 0px;">5.1 LSTM</li>
+                              <li style="margin-bottom: 0px;">5.2 GRU</li>
+                          </ul>
+                      </li>
+                      <li style="margin-bottom: 0px;"><p><strong>RNN-based Language Model</strong></p></li>
+                      <li style="margin-bottom: 0px;"><p><strong>Transformer</strong></p></li>
+                      <li style="margin-bottom: 0px;">
+                          <p><strong>My Thoughts</strong></p>
+                          <ul style="margin-top: 0;">
+                              <li style="margin-bottom: 0px;">8.1 The Question of Understanding</li>
+                              <li style="margin-bottom: 0px;">8.2 The Question of Complexity</li>
+                              <li style="margin-bottom: 0px;">8.3 The Question of Reasoning</li>
+                          </ul>
+                      </li>
+                  </ol>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=39c66ddc-40f8-4c84-bb33-aac8c280bed3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Inroduction:-Neural-Network">Inroduction: Neural Network<a class="anchor-link" href="#Inroduction:-Neural-Network">¶</a></h1><p>Let's imagine that our body receive a signal, say through the eyes, this signal go through the eyes and flow from one group of neurons to the next until it reaches a certain place where we make a certain judgement of that signal, say whether it is a cat or a flower. How to make a mathematical model of this process?</p>
+<h1 id="Inroduction:-Neural-Network">Inroduction: Neural Network<a class="anchor-link" href="#Inroduction:-Neural-Network">¶</a></h1>
+<div style="font-size: 18px; text-align: center;">
+<p>Let's imagine that our body receive a signal, say through the eyes, this signal go through the eyes and flow from one group of neurons to the next until it reaches a certain place where we make a certain judgement of that signal, say whether it is a cat or a flower. How to make a mathematical model of this process?</p>
 <p>Let $x$ be a signal. After receiving the signal, the input signal $x$ goes to a first group neurons $N_{1}^1,N_{2}^1,..,N_{k_1}^1$, neurons in the first layer, each $N_{i}^1$ processes information it received and passes it to deeper group of neuron $N_{1}^1,...,N_{k_2}^2$, neurons in the second layer, this process continue until the signal reaches a certain depth $L$ with neurons $N_{1}^L,...,N_{K_{L}}^L$, neurons in the L-th layer, and the result from these last group combined to produce an output.</p>
 </div>
 </div>
+</div>
+</div>
+<style>
+  .neuron {
+    fill: #d8b4ff;
+    stroke: #D27A3F;
+    stroke-width: 1;
+    rx: 10;
+  }
+  .text {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+  .connector {
+    stroke: blue;
+    stroke-width: 1;
+  }
+  .layer-label {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    fill: blue;
+  }
+  .activation-text {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    fill: blue;
+  }
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Adjust based on how much vertical space you want */
+  }
+</style>
+
+<div class="center">
+  <svg width="800" height="400">
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+      </marker>
+    </defs>
+
+    <line x1="50" y1="370" x2="750" y2="370" stroke="black" stroke-width="1.5" marker-end="url(#arrowhead)" />
+
+    <text x="60" y="30" class="layer-label">Input Layer</text>
+    <text x="260" y="30" class="layer-label">First Layer</text>
+    <text x="460" y="30" class="layer-label">Second Layer</text>
+    <text x="660" y="30" class="layer-label">Output Layer</text>
+    <text x="250" y="390" class="layer-label">Information Flow in Neural Network</text>
+
+    <text x="140" y="330" class="activation-text">Weighted Sum</text>
+    <text x="340" y="330" class="activation-text">Weighted Sum</text>
+    <text x="580" y="330" class="activation-text">Weighted Sum</text>
+
+    <rect x="50" y="70" width="100" height="30" class="neuron"/>
+    <text x="100" y="85" class="text">Neuron N⁰₁</text>
+
+    <rect x="50" y="120" width="100" height="30" class="neuron"/>
+    <text x="100" y="135" class="text">Neuron N⁰₂</text>
+
+    <rect x="50" y="170" width="100" height="30" class="neuron"/>
+    <text x="100" y="185" class="text">Neuron N⁰₃</text>
+
+    <rect x="50" y="220" width="100" height="30" class="neuron"/>
+    <text x="100" y="235" class="text">Neuron N⁰₄</text>
+
+    <rect x="250" y="90" width="100" height="30" class="neuron"/>
+    <text x="300" y="105" class="text">Neuron N¹₁</text>
+
+    <rect x="250" y="160" width="100" height="30" class="neuron"/>
+    <text x="300" y="175" class="text">Neuron N¹₂</text>
+
+    <rect x="250" y="230" width="100" height="30" class="neuron"/>
+    <text x="300" y="245" class="text">Neuron N¹₃</text>
+
+    <rect x="450" y="90" width="100" height="30" class="neuron"/>
+    <text x="500" y="105" class="text">Neuron N²₁</text>
+
+    <rect x="450" y="160" width="100" height="30" class="neuron"/>
+    <text x="500" y="175" class="text">Neuron N²₂</text>
+
+    <rect x="450" y="230" width="100" height="30" class="neuron"/>
+    <text x="500" y="245" class="text">Neuron N²₃</text>
+
+    <rect x="450" y="300" width="100" height="30" class="neuron"/>
+    <text x="500" y="315" class="text">Neuron N²₄</text>
+
+    <rect x="650" y="160" width="100" height="30" class="neuron"/>
+    <text x="700" y="175" class="text">Neuron N³₁</text>
+
+    <rect x="650" y="230" width="100" height="30" class="neuron"/>
+    <text x="700" y="245" class="text">Neuron N³₂</text>
+
+    <line x1="150" y1="85" x2="250" y2="105" class="connector"/>
+    <line x1="150" y1="135" x2="250" y2="105" class="connector"/>
+    <line x1="150" y1="185" x2="250" y2="105" class="connector"/>
+    <line x1="150" y1="235" x2="250" y2="105" class="connector"/>
+
+    <line x1="350" y1="105" x2="450" y2="245" class="connector"/>
+    <line x1="350" y1="175" x2="450" y2="245" class="connector"/>
+    <line x1="350" y1="245" x2="450" y2="245" class="connector"/>
+
+    <line x1="550" y1="105" x2="650" y2="175" class="connector"/>
+    <line x1="550" y1="175" x2="650" y2="175" class="connector"/>
+    <line x1="550" y1="245" x2="650" y2="175" class="connector"/>
+    <line x1="550" y1="315" x2="650" y2="175" class="connector"/>
+
+    <line x1="200" y1="70" x2="200" y2="310" stroke="black" stroke-width="1" stroke-dasharray="5,5" />
+    <line x1="400" y1="70" x2="400" y2="310" stroke="black" stroke-width="1" stroke-dasharray="5,5" />
+    <line x1="610" y1="70" x2="610" y2="310" stroke="black" stroke-width="1" stroke-dasharray="5,5" />
+
+    <text x="40" y="300" font-family="Arial" font-size="18">
+      x = [x₁, x₂, x₃, x₄]
+    </text>
+  </svg>
 </div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b14d65cc-f851-41ee-b622-36cae98621d0">
@@ -7597,13 +7779,15 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The simplest way to model that a neuron $N_{j}^i$ processing its inputs is to add all the inputs it receives to get a single number. However, just adding up everything is too restricted. To give extra freedom to the model and still keep it simple, we do weighted sum instead. Let's say neuron $N_{j}^i$ takes signal $x_1^{i-1},...,x_{k_{k-1}}^{i-1}$ from $N_1^{i-1},...,N_{k_{i-1}}^{i-1}$, respectively. The result is 
+  <div style="font-size: 18px; text-align: center;">
+  <p>The simplest way to model that a neuron $N_{j}^i$ processing its inputs is to add all the inputs it receives to get a single number. However, just adding up everything is too restricted. To give extra freedom to the model and still keep it simple, we do weighted sum instead. Let's say neuron $N_{j}^i$ takes signal $x_1^{i-1},...,x_{k_{k-1}}^{i-1}$ from $N_1^{i-1},...,N_{k_{i-1}}^{i-1}$, respectively. The result is 
 \begin{align*}
 x_{j}^i &amp;= \sum_{l=1}^{k_i} a_{l}^i x_{l}^{i-1} + b_{ij} \\
        &amp;= (a_{i1}, \ldots, a_{ik_j}) \cdot (x_{(i-1)1}, \ldots, x_{(i-1)k_j}) + b_{ij}
        \end{align*}
 Here $(a_{1}^i,...,a_{k_j})^i$ is the weight vector of neuron $N_{j}^i$ uses to process information giving to it from the (i-1)-th layer. Here each neuron has its own weight vectors. All this can be efficient pack as matrix multiplication and add a vector. Basically, the result from one layer of the neuron to the next is the result of an affine transforming of its input vectors.</p>
 <p>The above implies that we can use affine transformations to model how each layer of neuron processes its input and passes that result  to the next. So to model information flow in the brain through neuron, we can just compose such a map. However, composition of affine transformation is an affine transformation, this is equivalent to just one layers of neurons, to obtain the notion of multi-layers, we let the output of each layers passes through a non-linear function first before sending it forward.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -7614,14 +7798,18 @@ Here $(a_{1}^i,...,a_{k_j})^i$ is the weight vector of neuron $N_{j}^i$ uses to 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+  <div style="background-color: #f3e5f5; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
 <p><strong>Definition</strong></p>
 <p>A neural network is a function obtained by composing affine linear functions with non-linear functions, generally known as activation functions. A neural network of $ L $ layers is a function $ NN: \mathbb{R}^n \to \mathbb{R}^m $ defined by
 $
 NN(x) = Af_L \circ \sigma_L \circ \cdots \circ Af_2 \circ \sigma_2 \circ Af_1(x)
 $
 where each $ Af_i: \mathbb{R}^{d_{i-1}} \to \mathbb{R}^{d_i} $ is an affine map, i.e., $ Af_i(x) = W_i x + b_i $, with $ W_i\in \mathcal{L}(\mathbb{R}^{d_i},\mathbb{R}^{d_{i+1}})$  and $b_i \in \mathbb{R}^{d_{i+1}} $ and $d_0=m$ and $d_L=n$. Each $ \sigma_i $ is a non-linear function applied pointwise to the output of $Af_i $.</p>
+</div>
+<div style="font-size: 18px; text-align: center;">
 <p>Let me clarify what we mean by <strong>"applied pointwise"</strong> here. Say we have a function $f(x):\mathbb{R}\to \mathbb{R}$, and $v=(v_1,v_2,..,v_N)$ be a vector. Applying $f$ on $v$ pointwise is $f(v)=(f(v_1),f(v_2),...,f(v_N))$.</p>
 <p>In theory, one can choose $\sigma_i$ to be all different, but in practice, people tend to choose one one nonlinear function in a neural network, ie $\sigma_i=\sigma$.</p>
+
 </div>
 </div>
 </div>
@@ -7632,7 +7820,8 @@ where each $ Af_i: \mathbb{R}^{d_{i-1}} \to \mathbb{R}^{d_i} $ is an affine map,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The non-linear function $\sigma:\mathbb{R}\to \mathbb{R}$ is known as activation function, and common choices are $\tanh(x)$, sigmoid function, or ReLu, defined as follow
+  <div style="font-size: 18px; text-align: center;">
+  <p>The non-linear function $\sigma:\mathbb{R}\to \mathbb{R}$ is known as activation function, and common choices are $\tanh(x)$, sigmoid function, or ReLu, defined as follow
 $$
 \begin{align*}
 \tanh(x)&amp;=(e^{x}-e^{-x})/(e^{x}+e^{-x})\\
@@ -7641,6 +7830,7 @@ $$
 \end{align*}
 $$
 Note that ReLu(x)=0 if $x&lt;0$ and Relu(x)=x if $x\geq 0$. If we use Relu as the non-linear function, then when a neural process information and recieve a negative value, it will pass $0$ to the neurons in the next layer, ie it <strong>deactivates</strong> its output, and it only activates its output if the result is positive. I hope this justify the name activation function used to refer to non-linear functions.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -7651,16 +7841,23 @@ Note that ReLu(x)=0 if $x&lt;0$ and Relu(x)=x if $x\geq 0$. If we use Relu as th
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Coding-Neural-Network-with-PyTorch">Coding Neural Network with PyTorch<a class="anchor-link" href="#Coding-Neural-Network-with-PyTorch">¶</a></h3><p>One popular Python Package used in deep learning is PyTorch, developed by Facebook, where we now turn to.  Coding will be introduced throughout this note layer by layer.</p>
+<h3 id="Coding-Neural-Network-with-PyTorch">Coding Neural Network with PyTorch<a class="anchor-link" href="#Coding-Neural-Network-with-PyTorch">¶</a></h3>
+<div style="font-size: 18px; text-align: center;">
+<p>One popular Python Package used in deep learning is PyTorch, developed by Facebook, where we now turn to.  Coding will be introduced throughout this note layer by layer.</p>
 <p>In Python, when you want to use a package or a library, you have to import it. The package that we need now are <code>matplotlib.pyplot</code>, used to plot graphs, and <code>pytorch</code>, used to create tensors. To import, write the following in the code block.</p>
+</div>
 <pre><code>import torch
 import matplotlib.pyplot as plt
 </code></pre>
+<div style="font-size: 18px; text-align: center;">
 <p>The basics object in PyTorch are tensors, which are multi-dimensional arrays. There are quite a number of ways to create PyTorch tensors, and we recommend the reader to read the PyTorch documentation for detail. Here we only show a few examples to give an idea of how it works.</p>
+</div>
 <pre><code>a=torch.tensor([-1,2]) # create a tensor from a list of numbers from package torch
 b=torch.tensor([2,-7])
 </code></pre>
+<div style="font-size: 18px; text-align: center;">
 <p>We can perform operation on tensors.</p>
+</div>
 <ol>
 <li><code>a+b</code> define pointwise addition</li>
 <li><code>3*a</code> perfrom pointwise multiplication</li>
@@ -7674,7 +7871,7 @@ b=torch.tensor([2,-7])
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [214]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
@@ -7694,7 +7891,7 @@ b=torch.tensor([2,-7])
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[214]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>Text(0, 0.5, 'a^2-3a')</pre>
 </div>
@@ -7714,7 +7911,9 @@ b=torch.tensor([2,-7])
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Once you create a tensor, you can slice it or sample various subset of it. We show a few ways of how this can be done.</p>
+  <div style="font-size: 18px; text-align: center;">
+  <p>Once you create a tensor, you can slice it or sample various subset of it. We show a few ways of how this can be done.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -7723,7 +7922,7 @@ b=torch.tensor([2,-7])
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [217]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="c1">#    this create a tensor of 2 by 3 whose elements are random number between 0 and 1</span>
@@ -7745,10 +7944,10 @@ b=torch.tensor([2,-7])
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>x= tensor([[0.0337, 0.7116, 0.0294],
-        [0.6530, 0.6726, 0.0851]])
-x1=tensor([0.6530, 0.6726, 0.0851])
-y1=tensor([0.0294, 0.0851])
+<pre>x= tensor([[0.9607, 0.1908, 0.6339],
+        [0.9940, 0.0890, 0.3960]])
+x1=tensor([0.9940, 0.0890, 0.3960])
+y1=tensor([0.6339, 0.3960])
 </pre>
 </div>
 </div>
@@ -7761,10 +7960,14 @@ y1=tensor([0.0294, 0.0851])
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>To create neural network, we can use package <code>torch.nn</code> from PyTorch. To get this package, we need to import it</p>
-<pre><code>import torch.nn as nn
+  <div style="font-size: 18px; text-align: center;">
+  <p>To create neural network, we can use package <code>torch.nn</code> from PyTorch. To get this package, we need to import it</p>
+  </div>
+  <pre><code>import torch.nn as nn
 </code></pre>
+<div style="font-size: 18px; text-align: center;">
 <p>Once we have <code>torch.nn</code>, we can create affine function by <code>torch.nn.Linear(m,n)</code>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -7790,7 +7993,9 @@ y1=tensor([0.0294, 0.0851])
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>In mathematical term, we create $L(x)=xW+b$, where $W$ is a 2 by 3 matrix and $b\in \mathbb{R}^3$. The enteries of $W$ and $b$ are random number. If we want the bias term $b=0$, we can do <code>L=nn.Linear(2,3,bias=False)</code>. The code <code>nn.Linear(2,3)</code> produce an object that has several attribute and operation attached to it.</p>
+  <div style="font-size: 18px; text-align: center;">
+  <p>In mathematical term, we create $L(x)=xW+b$, where $W$ is a 2 by 3 matrix and $b\in \mathbb{R}^3$. The enteries of $W$ and $b$ are random number. If we want the bias term $b=0$, we can do <code>L=nn.Linear(2,3,bias=False)</code>. The code <code>nn.Linear(2,3)</code> produce an object that has several attribute and operation attached to it.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -7836,10 +8041,14 @@ tensor([-0.6838, -0.4431, -0.2809], requires_grad=True)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Let's me explain a bit more about <code>L=nn.Linear(n,m)</code>. Sure it creates a linear map $L\in \mathcal{L}(\mathbb{R}^n,\mathbb{R}^m)$. But this is something created for using in machine learning, and during training a neural network, it is efficent to process several data points, called batch, at the same time. So the natural input for $L$ is a batch of vectors instead of a vector, ie it expects the input of shape <code>[batch_size,input_dim]</code>. Say we have a batch of vectors $[v_1,v_2,...,v_k]$, where $v_i\in \mathbb{R}^n$, then the linear map</p>
-<pre><code>L=nn.Linear(n,m)
+  <div style="font-size: 18px; text-align: center;">
+  <p>Let's me explain a bit more about <code>L=nn.Linear(n,m)</code>. Sure it creates a linear map $L\in \mathcal{L}(\mathbb{R}^n,\mathbb{R}^m)$. But this is something created for using in machine learning, and during training a neural network, it is efficent to process several data points, called batch, at the same time. So the natural input for $L$ is a batch of vectors instead of a vector, ie it expects the input of shape <code>[batch_size,input_dim]</code>. Say we have a batch of vectors $[v_1,v_2,...,v_k]$, where $v_i\in \mathbb{R}^n$, then the linear map</p>
+  </div>
+  <pre><code>L=nn.Linear(n,m)
 </code></pre>
+<div style="font-size: 18px; text-align: center;">
 <p>process this stack in parallel and produce $[L(v_1),...,L(v_k)]$. We will get back to this more later.  When we create $L$, what we get is an object. In Object-Orieted Programing (OOP), an object has attributes and methods. I tend to think of attribute as internal state or data of the object, and methods are functions or action we can do with these internal state or data. The object<code>nn.Linear(n,m)</code> has weigth $W$ and bias $b$ attached to it, that's expected. <strong>What more is that the weight $W$ is a pair (weight,gradient) not just the weight, same for b</strong>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -7850,7 +8059,9 @@ tensor([-0.6838, -0.4431, -0.2809], requires_grad=True)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Let's create a two layers nueral network $N:\mathbb{R}\to \mathbb{R}$, obtained by composing a affine map $A_1:\mathbb{R}\to \mathbb{R}^3$, $\tanh$, and $A_2:\mathbb{R}^3\to \mathbb{R}$.</p>
+  <div style="font-size: 18px; text-align: center;">
+  <p>Let's create a two layers nueral network $N:\mathbb{R}\to \mathbb{R}$, obtained by composing a affine map $A_1:\mathbb{R}\to \mathbb{R}^3$, $\tanh$, and $A_2:\mathbb{R}^3\to \mathbb{R}$.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -7885,7 +8096,9 @@ tensor([-0.6838, -0.4431, -0.2809], requires_grad=True)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Now we can plot what function our neural network produce.</p>
+  <div style="font-size: 18px; text-align: center;">
+  <p>Now we can plot what function our neural network produce.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -7931,7 +8144,9 @@ tensor([-0.6838, -0.4431, -0.2809], requires_grad=True)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>We will see how to train a neural network after we learn stochastic gradient decent.</p>
+  <div style="font-size: 18px; text-align: center;">
+  <p>We will see how to train a neural network after we learn stochastic gradient decent.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -7942,11 +8157,14 @@ tensor([-0.6838, -0.4431, -0.2809], requires_grad=True)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Universal-Approximation">Universal Approximation<a class="anchor-link" href="#Universal-Approximation">¶</a></h1><p>A neural network is defined by its weight matrices $W_i$ and bias vectors $b_i$, collectively known as parameters and denoted by $P = (W_1, W_2, \ldots, W_L, b_1, \ldots, b_L)$. These parameters can be thought long vector of dimension $K$ for some $K \in \mathbb{N}$, representing a point $P$ in $\mathbb{R}^K$. Each point corresponds uniquely to a neural network instance, denoted $NN_P$, which is structured according to the network's fixed architecture. This parameter-to-network mapping can be expressed as:
+<h1 id="Universal-Approximation">Universal Approximation<a class="anchor-link" href="#Universal-Approximation">¶</a></h1>
+<div style="font-size: 18px; text-align: center;">
+<p>A neural network is defined by its weight matrices $W_i$ and bias vectors $b_i$, collectively known as parameters and denoted by $P = (W_1, W_2, \ldots, W_L, b_1, \ldots, b_L)$. These parameters can be thought long vector of dimension $K$ for some $K \in \mathbb{N}$, representing a point $P$ in $\mathbb{R}^K$. Each point corresponds uniquely to a neural network instance, denoted $NN_P$, which is structured according to the network's fixed architecture. This parameter-to-network mapping can be expressed as:
 $$
 P \mapsto NN_P
 $$
 The primary task of machine learning is to select the parameter $P$ that make $NN_P$  best approximates the function of interest. This point of view allow us to see ML is a techique of function approximation much like that of Fourier transform and Taylor expansion. One obvious question is what kind of function can be approximated by neural networks. The answer of this question coming from universal approximation theorems which we are now turn to in the next section.</p>
+</div>
 </div>
 </div>
 </div>
@@ -7957,8 +8175,11 @@ The primary task of machine learning is to select the parameter $P$ that make $N
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+  <div style="background-color: #EADCB9; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
+
 <p><strong>Universal Approximation Theorem, G Cybenko</strong>
 The space $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T x + b_i) \mid y_i \in \mathbb{R}^d \right\} $ is dense in $ \mathcal{C}(I_d, \mathbb{R}) $, where $ \sigma: \mathbb{R} \to \mathbb{R} $ is a fixed discriminatory function, to be defined below.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -7969,12 +8190,14 @@ The space $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>Definition</strong>
+  <div style="background-color: #f3e5f5; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
+  <p><strong>Definition</strong>
 We say that $\sigma$ is <em>discriminatory</em> if for a measure $\mu \in M(I_n)$,
 $$
 \int_{I_n} \sigma(y^T x + \theta) \, d\mu(x) = 0
 $$
 for all $y \in \mathbb{R}^n$ and $\theta \in \mathbb{R}$ implies that $\mu = 0$.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -7985,13 +8208,15 @@ for all $y \in \mathbb{R}^n$ and $\theta \in \mathbb{R}$ implies that $\mu = 0$.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>Proof</strong></p>
+  <p><strong>Proof</strong></p>
+  <div style="font-size: 18px; text-align: center;">
 <p>Note that  $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T x + b_i) \mid y_i \in \mathbb{R}^d \right\} $ is a linear subspace of $\mathcal{C}(I_d,\mathbb{R})$. Assume it is not dense, then its closure $\bar{N_2}$ is proper Banach subspace of $\mathcal{C}$. We can define a linear functional $\ell:\bar{N_2}\to \mathbb{R}$ to be zero. Since $\bar{N_2}$ is a proper subspace, the Hanh-Banach's theorem allows us to extend $\ell$ to all of $\mathcal{C}$ such that $\ell(f)=0$ if $f\in \bar{N_2}$ and $\ell(f)\neq 0$ for some $f\notin \bar{N_2}$. In particular, there exist $f_0\in \mathcal{C}$ such that $\ell(f_0)\neq 0$.</p>
 <p>Now follow Rieze-Markov-Kakutani representation theorem, we know there exist a positive Borel's measure $\mu$ on $I_d$ such that 
 $$
 \ell(f)=\int fd\mu
 $$
 for all $f\in \mathcal{C}$. In particular $\int \sigma(y_i^Tx+b)d\mu=0$ for all $y\in \mathbb{R}^d$ and $b\in\mathbb{R}$. But $\sigma$ is discriminatory, this implies $\mu=0$. However, we know that $\int f_0d\mu=\ell(f_0)\neq 0$, this is a contradiction.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -8002,18 +8227,10 @@ for all $f\in \mathcal{C}$. In particular $\int \sigma(y_i^Tx+b)d\mu=0$ for all 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The next stage of the proof is to prove that the activation functions we have above is discriminatory with respect to the Lebesgue measure. This is true but we won't be proving it here.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=694aa0bb-0ec2-4497-960d-8fa66913e733">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+  <div style="font-size: 18px; text-align: center;">
+  <p>The next stage of the proof is to prove that the activation functions we have above is discriminatory with respect to the Lebesgue measure. This is true but we won't be proving it here.</p>
 <p>We can equip the space $\mathcal{C}(I_d,\mathbb{R})$ with the $L_p$ norm and there are similar results by Kurt Hornik in 1990.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -8024,8 +8241,11 @@ for all $f\in \mathcal{C}$. In particular $\int \sigma(y_i^Tx+b)d\mu=0$ for all 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>Theorem</strong>
+  <div style="background-color: #EADCB9; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
+
+  <p><strong>Theorem</strong>
 The space $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T x + b_i) \mid y_i \in \mathbb{R}^d \right\} $ is dense in the space of $\mathcal{C}(I_d,\mathbb{R})$ when $\mathcal{C}$ is equipped with the $L_p$ norm with $1\leq p\leq \infty$ and $\sigma$ is a continuous, bounded and non-constant function.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -8036,47 +8256,19 @@ The space $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="2.-Implementation">2. Implementation<a class="anchor-link" href="#2.-Implementation">¶</a></h1><p>Let's consider the task of finding a two-layer neural network to approximate $\cos(x)$ for $x \in [-10,10]$ with respect to the $L^2$ norm. Given $\varepsilon &gt; 0$, the Universal Approximation Theorem tells us that there exists a neural network which is $\varepsilon$-close to $\cos(x)$ on this interval in the $L^2$ norm. The question then is, which neural network? Unfortunately, there is no straightforward way to identify it directly. What we can do is fix an architecture for the network and then search for the parameters $P$ that work best. We start with a random initial guess for $P$ and use gradient descent to iteratively improve this guess.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=063a8cb2-ffd4-47d2-a6e7-fa10c266a9b5">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="2.-Implementation"> Implementation<a class="anchor-link" href="#2.-Implementation">¶</a></h1>
+<div style="font-size: 18px; text-align: center;">
+<p>Let's consider the task of finding a two-layer neural network to approximate $\cos(x)$ for $x \in [-10,10]$ with respect to the $L^2$ norm. Given $\varepsilon &gt; 0$, the Universal Approximation Theorem tells us that there exists a neural network which is $\varepsilon$-close to $\cos(x)$ on this interval in the $L^2$ norm. The question then is, which neural network? Unfortunately, there is no straightforward way to identify it directly. What we can do is fix an architecture for the network and then search for the parameters $P$ that work best. We start with a random initial guess for $P$ and use gradient descent to iteratively improve this guess.</p>
 <p>Let's set this mathematically. As an example, first, we select the architecture by setting the first layer to have dimension $13$ and the second layer to have dimension $5$. This means we are looking for a function
 $$
 NN_P(x) = W_3(\sigma(W_2\sigma(W_1x+b_1)+b_2))+b_3
 $$
 where $W_1$ is a matrix that takes $\mathbb{R}^1$ to $\mathbb{R}^{13}$, $W_2$ is a matrix taking $\mathbb{R}^{13}$ to $\mathbb{R}^5$, $W_3$ is a matrix that takes $\mathbb{R}^5$ back to $\mathbb{R}$, and $b_1 \in \mathbb{R}^{13}, b_2 \in \mathbb{R}^5$ and $b_3 \in \mathbb{R}$. In this case, $P = (W_1, W_2, W_3, b_1, b_2, b_3)$ is a point in $\mathbb{R}^{13 \cdot 1 + 13 \cdot 5 + 5 \cdot 1 + 13 + 5 + 1=102}$.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=00b5d7ad-4626-470c-bf1a-dc083f30c03b">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>Given $P \in \mathbb{R}^{102}$, we construct a function $NN_P(x)$ to approximate the cosine function. The error of this approximation is measured by the loss function, defined as:
 $$
 \text{loss}(P) = \int_{-10}^{10} (\cos(x) - NN_P(x))^2 \, dx
 $$
 The task is to optimize $\text{loss}: \mathbb{R}^{102} \to \mathbb{R}$. Of course we can't hope to find $P$ that truly is the minimum since the dimension is so large, what we can hope for is to find $P$ such that $\text{loss}(P)&lt;\varepsilon$ for an acceptable $\varepsilon&gt;0$.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=99cd368c-942c-4945-b6b8-3ad1e32c3891">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>Next, we need to be more realistic. We cannot compute $\text{loss}(P)$ directly because the function $NN_P(x)$ is difficult, if not impossible, to integrate analytically. To address this issue, we define a loss function at each point as:
 $$
 l(P,x) = |\cos(x) - NN_P(x)|^2
@@ -8086,21 +8278,12 @@ $$
 \text{loss}(P) \approx \text{loss}_D = \frac{\sum_{i=1}^N l(P,x_i)}{N}
 $$
 where $D = \{x_1, \ldots, x_N\}$ is a set of points sampled from $[-10, 10]$. Here, the subscript $D$ indicates a loss function depends on the data set $D$. Since this loss function is based on the data, it is called the empirical loss. Note that as $N \to \infty$, by continuity, $\text{loss}_D(P)\to 20\text{loss}(P)$.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=94ab65b0-87df-4439-989b-77ff6176cc87">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p>Let's summarize where we are now. We have a dataset $D$. For each data point $x_i \in [-10,10]$, we can evaluate the point-wise loss for each parameter set $P$. Averaging these, we obtain the empirical loss:
 $$
 \text{loss}_D(P) = \frac{\sum_{i=1}^N |\cos(x_i) - NN_P(x_i)|^2}{N}
 $$
 While this empirical loss is computable, it remains challenging to optimize using critical points method. A method commonly used for this optimization is called gradient descent.</p>
+</div>
 </div>
 </div>
 </div>
@@ -8111,14 +8294,21 @@ While this empirical loss is computable, it remains challenging to optimize usin
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Gradient-Decent-Algorithm">Gradient Decent Algorithm<a class="anchor-link" href="#Gradient-Decent-Algorithm">¶</a></h1><p>Let's remind ourselves what gradient descent is. Consider $f: \mathbb{R}^d \to \mathbb{R}$. The goal is to find a point $P$ where $f(P)$ is the global minimum of $f$. The gradient descent algorithm suggests the following steps:</p>
+<h1 id="Gradient-Decent-Algorithm">Gradient Decent Algorithm<a class="anchor-link" href="#Gradient-Decent-Algorithm">¶</a></h1>
+<div style="font-size: 18px; text-align: center;">
+<p>Let's remind ourselves what gradient descent is. Consider $f: \mathbb{R}^d \to \mathbb{R}$. The goal is to find a point $P$ where $f(P)$ is the global minimum of $f$. The gradient descent algorithm suggests the following steps:</p>
+</div>
+<div style="font-size: 18px;">
 <ol>
 <li>Start at a point $P_0$.</li>
 <li>Compute the gradient $\nabla f(P_0)$.</li>
 <li>Take a small step $\eta&gt;0$ in the direction opposite to the gradient, i.e., $P_1 = P_0 - \eta \nabla f(P_0)$.</li>
 <li>Repeat the above process.</li>
 </ol>
+</div>
+<div style="font-size: 18px; text-align: center;">
 <p>The number $\eta$ is known as the learning rate. The reason we move in the direction opposite to the gradient is that the function decreases fastest in this direction.</p>
+</div>
 </div>
 </div>
 </div>
@@ -8129,12 +8319,18 @@ While this empirical loss is computable, it remains challenging to optimize usin
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>We now state and prove that if $f$ is a nice function, the gradient decent algorithm will converge to a minimum. Note that most function we encounter in machine learning are far from being nice.</p>
-<p><strong>Theorem</strong> Let $f:\mathbb{R}^d\to \mathbb{R}$ be a strongly convex, bounded below, non-constant differentiable function where the derivative $Df:\mathbb{R}^d\to \mathbb{R}^d$ of $f$ is Lipschitz. Then $f$ has a unique minimum, we denoted it by $P_c$. Moreover, for $\eta$ sufficiently small, the sequence 
+  <div style="font-size: 18px; text-align: center;">
+  <p>We now state and prove that if $f$ is a nice function, the gradient decent algorithm will converge to a minimum. Note that most function we encounter in machine learning are far from being nice.</p>
+  </div>
+  <div style="background-color: #EADCB9; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
+
+  <p><strong>Theorem</strong> Let $f:\mathbb{R}^d\to \mathbb{R}$ be a strongly convex, bounded below, non-constant differentiable function where the derivative $Df:\mathbb{R}^d\to \mathbb{R}^d$ of $f$ is Lipschitz. Then $f$ has a unique minimum, we denoted it by $P_c$. Moreover, for $\eta$ sufficiently small, the sequence 
      $$
      P_{n+1}=P_n-\eta \nabla f(P_n)
      $$
      converges to $P_c$ for any initial point $P_0$.</p>
+  </div>
+  <div style="background-color: #f3e5f5; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
 <p><strong>Definition</strong>
  Let $f:\mathbb{R}^d\to \mathbb{R}$. We say $f$ is convex if for all $P,Q\in \mathbb{R}^d$ we have 
  $$
@@ -8150,7 +8346,10 @@ While this empirical loss is computable, it remains challenging to optimize usin
  \|F(P)-\nabla F\|\leq L\|P-Q\|
  $$
  for any $P,Q\in \mathbb{R}^d$.</p>
+ </div>
+ <div style="font-size: 18px; text-align: center;">
 <p><em>Note:</em> If $f$ is convex, with $Df$ being Lipschitz doesn't imply uniqueness of a minimum, $f(x,y)=x^2$ is an example of such function.</p>
+ </div>
 </div>
 </div>
 </div>
@@ -8161,7 +8360,8 @@ While this empirical loss is computable, it remains challenging to optimize usin
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><strong>Proof</strong> Now we prove the convergence of the gradient descent sequence. Recall that the gradient descent update rule is given by:
+  <div style="font-size: 18px; text-align: center;">
+  <p><strong>Proof</strong> Now we prove the convergence of the gradient descent sequence. Recall that the gradient descent update rule is given by:
 $$
 P_{k+1} = P_k - \eta \nabla f(P_k)
 $$
@@ -8199,7 +8399,8 @@ $$</p>
 <p>Sum up above expression from $k=0$ to $N$, we obtain</p>
 $$
 0&lt;\left( \eta - \frac{L \eta^2}{2} \right) \sum_{k=1}^{N}\|P_{k+1}-P_k \|^2 \leq f(P_0)-f(P_{N})&lt;f(P_0)-m_f
-$$<p>This means the series $\sum_{k=1}^{N}\|P_{k+1}-P_k \|^2$ is convergent, and therefore $\{P_k\}_{k=1}^{\infty}$ must converges to a point, called this point $P_c$. And this we leave it for keen readers to entertain themselves with this fun exercise.</p>
+$$<p>This means the series $\sum_{k=1}^{N}\|P_{k+1}-P_k \|^2$ is convergent, and therefore $\{P_k\}_{k=1}^{\infty}$ must converges to a point, called this point $P_c$. And this we leave it for keen readers to entertain themselves to prove uniqueness.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -8210,14 +8411,20 @@ $$<p>This means the series $\sum_{k=1}^{N}\|P_{k+1}-P_k \|^2$ is convergent, and
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Stochastic-Gradient-Decent">Stochastic Gradient Decent<a class="anchor-link" href="#Stochastic-Gradient-Decent">¶</a></h1><p>Consider the problem of training a neural network $NN(x)$ to learn a function $F:\mathbb{R}\to \mathbb{R}$. We don't know $F$ but we have   $N$ samples of it, ie the data of $F$. Let $D=\{(x_1,y_1),(x_2,y_2),...,(x_N,y_N)\}$ be the data we collect about $F$.</p>
+<h1 id="Stochastic-Gradient-Decent">Stochastic Gradient Decent<a class="anchor-link" href="#Stochastic-Gradient-Decent">¶</a></h1>
+<div style="font-size: 18px; text-align: center;">
+<p>Consider the problem of training a neural network $NN(x)$ to learn a function $F:\mathbb{R}\to \mathbb{R}$. We don't know $F$ but we have   $N$ samples of it, ie the data of $F$. Let $D=\{(x_1,y_1),(x_2,y_2),...,(x_N,y_N)\}$ be the data we collect about $F$.</p>
+</div>
+<div style="font-size: 18px; text-align: center;">
 <p>Let's say we fix a neural network architecture, in other word, we fix the number of layers and the number of neuron the neural network has. This specification dictates the size of parameter $P$. Let's say $P\in \mathbb{R}^K$. Then the empirical loss function 
 \begin{align*}
 \text{loss}_D(P) &amp;= \dfrac{\sum_{i=1}^N |F(x_i) - NN_P(x_i)|^2}{N} \\
                  &amp;= \dfrac{\sum_{i=1}^N |y_i - NN_P(x_i)|^2}{N}
 \end{align*}
-This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural network means using the gradient decent <strong>SGD</strong> to update the parameter $P$. Now if $N$ is large, the loss function for the whole data set can be computationally costly and the network can overfit the data. Stochastic gradient decent is proposed to solve these issues. Instead of computing the loss function for all $N$ data points, we instead compute it on subset of size $n$ where $n$ is much smaller than $N$.</p>
+This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural network means using the gradient decent, <strong>GD</strong> ,to update the parameter $P$. Now if $N$ is large, the loss function for the whole data set can be computationally costly and the network can overfit the data. Stochastic gradient decent is proposed to solve these issues. Instead of computing the loss function for all $N$ data points, we instead compute it on subset of size $n$ where $n$ is much smaller than $N$.</p>
 <p>Now fix $n&lt;N$, the stochastic gradient decent algorithm:</p>
+</div>
+<div style="font-size: 18px">
 <ol>
 <li>Select random $n$ data points from $D$, this make $\tilde{D}\subset D$.</li>
 <li>Form loss function with respect to $\tilde{D}$, $\text{loss}_{\tilde{D}}(P)$.</li>
@@ -8227,18 +8434,11 @@ This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural networ
 <li>Update $P$ using gradient decent.</li>
 <li>Repeat the above step.</li>
 </ol>
+</div>
+<div style="font-size: 18px; text-align: center;">
 <p>The number $n$ used to compute the stochastic loss function is call <strong>batch size</strong>. Let's suppose we have $N=1000$ data points, if we make batch size $n=20$, then goes through all data points we must run the SGD $1000/20=50$ times. When we run through all the data, people say it is an <strong>epoch</strong>.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=27dcfd0a-9d02-44d2-bfb5-7c2642f70ace">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <p><strong>Remark:</strong> An interesting question is how do we know that evolution of $P$ via <strong>SGD</strong>  algorithm converge to a stable position, let alone a global minimum.</p>
+</div>
 </div>
 </div>
 </div>
@@ -8249,7 +8449,10 @@ This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural networ
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Training-Neural-Network-with-PyTorch">Training Neural Network with PyTorch<a class="anchor-link" href="#Training-Neural-Network-with-PyTorch">¶</a></h1><p>Let's say we want to find a neural network to approximate $\cos(x)$ on $I=[-20,20]$. First, we create a data of cosine value on $I$, and then train a fixed size two layers neural network to approximate this data.</p>
+<h2 id="Training-Neural-Network-with-PyTorch">Training Neural Network with PyTorch<a class="anchor-link" href="#Training-Neural-Network-with-PyTorch">¶</a></h2>
+<div style="font-size: 18px; text-align: center;">
+<p>Let's say we want to find a neural network to approximate $\cos(x)$ on $I=[-20,20]$. First, we create a data of cosine value on $I$, and then train a fixed size two layers neural network to approximate this data.</p>
+</div>
 </div>
 </div>
 </div>
@@ -8302,7 +8505,9 @@ This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural networ
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Next, we create a neural network with 3 layers. The input starts with 1 dimension, passes through a 40-dimensional space, then a 15-dimensional space, and finally maps to a 1-dimensional output (a real number).</p>
+  <div style="font-size: 18px; text-align: center;">
+  <p>Next, we create a neural network with 3 layers. The input starts with 1 dimension, passes through a 40-dimensional space, then a 15-dimensional space, and finally maps to a 1-dimensional output (a real number).</p>
+  </div>
 </div>
 </div>
 </div>
@@ -8449,8 +8654,10 @@ This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural networ
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Note that our batch size is 1. That's why I wanted the network to do gradient decent 40000 steps.</p>
+  <div style="font-size: 18px; text-align: center;">
+  <p>Note that our batch size is 1. That's why I wanted the network to do gradient decent 40000 steps.</p>
 <p>One might think that the network <strong>"Learn"</strong> the cosine function. I think this is not the case, I think what the network does is it imitate the data it see and that's it. Let's plot the neural network</p>
+  </div>
 </div>
 </div>
 </div>
@@ -8502,7 +8709,9 @@ This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural networ
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>An esay argument to see that a neural network defined above can never approximate the $\cos(x)$ on $\mathbb{R}$ regardless how big it is is that a neural network has only finitely many critical points while the cosine function has infinitly many critical points.</p>
+  <div style="font-size: 18px; text-align: center;">
+  <p>An esay argument to see that a neural network defined above can never approximate the $\cos(x)$ on $\mathbb{R}$ regardless how big it is is that a neural network has only finitely many critical points while the cosine function has infinitly many critical points.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -8513,7 +8722,9 @@ This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural networ
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Now, let's me explain about the <code>zero_grad</code> issue. In PyTorch, when we create an tensor W, it could come as a pair (W,grad). And this is always true for parameter in neural network objects. For example, in the neural network we defined above, there are serveral parameter. If we do <code>net.A1</code>, this will give us a linear map <code>nn.Linear(1,40)</code>, which is an obect of its own. Now when we do <code>net.A1.weight</code>, we get the weight of <code>A1</code>, and associate to this weight is grad. This mean we have a pair (W,grad). The code <code>loss.backward()</code>, compute the the derivative of the loss function, and it will update gradient of any parameters that involve in computing the loss function, therefore W will get its gradient updated. In the begining, before the gradient get update, grad=0, and <code>loss.backward()</code> update gradient by adding gradient by accumulation, ie 0+grad. Note that this doesn't change the weight W itself, and to change W itself, we must do gradient decent. After the gradient decent, the pair (W,grad) become (W_new,grad). Next if we do <code>loss.backward()</code>, we would get a part (W_new,grad+grad(W_new)), so to avoid this problem, we need to make the pair (W_new,grad) to (W_new,0) first before we we do <code>loss.backward()</code>, and we can do this by <code>net.zero_grad()</code>, which set gradient of all parameter to be zero.</p>
+  <div style="font-size: 18px; text-align: center;">
+  <p>Now, let's me explain about the <code>zero_grad</code> issue. In PyTorch, when we create an tensor W, it could come as a pair (W,grad). And this is always true for parameter in neural network objects. For example, in the neural network we defined above, there are serveral parameter. If we do <code>net.A1</code>, this will give us a linear map <code>nn.Linear(1,40)</code>, which is an obect of its own. Now when we do <code>net.A1.weight</code>, we get the weight of <code>A1</code>, and associate to this weight is grad. This mean we have a pair (W,grad). The code <code>loss.backward()</code>, compute the the derivative of the loss function, and it will update gradient of any parameters that involve in computing the loss function, therefore W will get its gradient updated. In the begining, before the gradient get update, grad=0, and <code>loss.backward()</code> update gradient by adding gradient by accumulation, ie 0+grad. Note that this doesn't change the weight W itself, and to change W itself, we must do gradient decent. After the gradient decent, the pair (W,grad) become (W_new,grad). Next if we do <code>loss.backward()</code>, we would get a part (W_new,grad+grad(W_new)), so to avoid this problem, we need to make the pair (W_new,grad) to (W_new,0) first before we we do <code>loss.backward()</code>, and we can do this by <code>net.zero_grad()</code>, which set gradient of all parameter to be zero.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -8524,19 +8735,26 @@ This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural networ
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Loss-Functions-for-Classification-Task:-Cross-Entropy">Loss Functions for Classification Task: Cross-Entropy<a class="anchor-link" href="#Loss-Functions-for-Classification-Task:-Cross-Entropy">¶</a></h1><p><strong>Setup</strong></p>
-<p>We have $D=\bigcup_{i=1}^ND_i$ as disjoint union. The function $F:D\to \mathbb{R}^N$ defined by $F(x)=e_i$ if $x\in D_i$, where $e_1,e_2,...,e_N$ are the standard unit vectors, allow us to classify point in $D$ based on which subset $D_i$ they are in. For each $x$, the vector value $F(x)$ can be thought as a probability distribution on $\{D_1,D_2,...,D_N\}$. To use neural network to do clasification task mean to find a neural network $NN:D\to \mathbb{R}^N$ that approximate $F$ on $D$. The output $NN(x)\in \mathbb{R}^N$ should be thought of as a probability distribution.</p>
+<h1 id="Loss-Functions-for-Classification-Task:-Cross-Entropy">Loss Functions for Classification Task: Cross-Entropy<a class="anchor-link" href="#Loss-Functions-for-Classification-Task:-Cross-Entropy">¶</a></h1>
+<div style="font-size: 18px; text-align: center;">
+<p><strong>Setup</strong>: We have $D=\bigcup_{i=1}^ND_i$ as disjoint union. The function $F:D\to \mathbb{R}^N$ defined by $F(x)=e_i$ if $x\in D_i$, where $e_1,e_2,...,e_N$ are the standard unit vectors, allow us to classify point in $D$ based on which subset $D_i$ they are in. For each $x$, the vector value $F(x)$ can be thought as a probability distribution on $\{D_1,D_2,...,D_N\}$. To use neural network to do clasification task mean to find a neural network $NN:D\to \mathbb{R}^N$ that approximate $F$ on $D$. The output $NN(x)\in \mathbb{R}^N$ should be thought of as a probability distribution.</p>
 <p>Now need a way to compare to probability distribution, this will allow us to compare how well a neural network does a classification job.</p>
+</div>
+<div style="background-color: #f3e5f5; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
 <p><strong>Definition</strong></p>
 <p>Let's $P,Q:X\to [0,1]$ be a probability distribution over $X$. The cross entropy $H(P,Q)$ is defined as 
-$
-H(P,Q)=-\sum_{x\in X}P(X)\log(Q(x))
-$</p>
+  <div style="text-align: center;">
+    \[ H(P, Q) = -\sum_{x \in X} P(x) \log(Q(x)) \]
+</div>
+</p>
+</div>
+<div style="font-size: 18px; text-align: center;">
 <p>It would be cool if the cross entropy is a metric. However, it is not, one obvious thing is that it is not symmetric, ie $H(P,Q)\neq H(P,Q)$. What make the cross entropy a good candidate as a measure how close $Q$ is to $P$ is the following ineqaulity
 $
 H(P,Q)\geq H(P,P)
 $
 This means that the smaller we can make the cross entropy, the better we make $Q$ close to $P$.</p>
+
 <p><strong>Proof</strong>
 Note that
 $$
@@ -8562,11 +8780,14 @@ D_{KL}(P \| Q) \leq \log\left( \sum_{x \in X} P(x) \frac{Q(x)}{P(x)} \right) = \
 $$
 Thus, $D_{KL}(P \| Q) \geq 0$.</p>
 <p>Back to using neural network $NN$ to approximate distribution function. We know that the output of the neural network is a vector $NN(x)=(s_1,s_2,...,s_N)$ in $\mathbb{R}^N$. This is not any probability distribution. To deal with this problem, we pass the result of the neural network into softmax function defined as:</p>
+</div>
+<div style="background-color: #f3e5f5; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
 <p><strong>Definition</strong>
 The function $\text{SoftMax} : \mathbb{R}^n \to I^n$ is defined by
 $$
 \text{SoftMax}(x_1, \ldots, x_n) = (p_1, \ldots, p_n) = \left( \frac{e^{x_1}}{\sum_{i=1}^n e^{x_i}}, \ldots, \frac{e^{x_n}}{\sum_{i=1}^n e^{x_i}} \right)
 $$</p>
+</div>
 </div>
 </div>
 </div>
@@ -8577,11 +8798,15 @@ $$</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Recurrent-Nueral-Network">Recurrent Nueral Network<a class="anchor-link" href="#Recurrent-Nueral-Network">¶</a></h1><p>Imagine we have a collection of news articles $\mathcal{C}=\{A_1,A_2,...,A_K\}$ and we want to classify them into $L$<strong>={sport, politics, health}</strong>. Each news article is a string of words. To process these articles, we need a way to represent each words numerically so that we can use mathematical techniques to do the classification task.</p>
+<h1 id="Recurrent-Nueral-Network">Recurrent Nueral Network<a class="anchor-link" href="#Recurrent-Nueral-Network">¶</a></h1>
+<div style="font-size: 18px; text-align: center;">
+<p>Imagine we have a collection of news articles $\mathcal{C}=\{A_1,A_2,...,A_K\}$ and we want to classify them into $L$<strong>={sport, politics, health}</strong>. Each news article is a string of words. To process these articles, we need a way to represent each words numerically so that we can use mathematical techniques to do the classification task.</p>
+
 <p>Assume $A_i=v_1...v_L$ where $v_{k}$ are words used to composed $A_i$ and $L$ is the length of $A_i$. Let $\mathcal{W}=\{w_1,w_2,...,w_N\}$ be the set of vocabulary used to composed $\{A_1,...,A_K\}$, ordered in some manner. In the palance of natural language processing, $\mathcal{C}$ is refereed to as corpus and $\mathcal{W}$ is the dictionary.</p>
 <p>The goal is to represent $w_i$ numerically, one naive way to do this is to use number 1 to represent $w_1$, 2 to represent $w_2$, and so on. But the natural number has ordered structure, while we can't quite see that with words. So instead we should use vectors to represent words. More precisely, we want to find an embedding $E:\mathcal{W}\to \mathbb{R}^d$ for some $d$. One way to do this is to take $d=|\mathcal{W}|=N$ and send $w_i$ to the standard unit vector $e_i\in \mathbb{R}^N$, this is known as the one hot encoding. However, there are several issue with this method. First, the embedding dimension is high, for example there are around 600000 words in English. Second, $\mathbb{R}^N$ is a metric space, we would hope that that words $w_i$ and $w_j$ that are similar in meaning should be closer compare to those that are not, but every pair of different words has distance $\sqrt{2}$ in the one-hot-encoding.</p>
 <p>Continuous word embedding deal with the issues mentioned about the one one encoding. There is $d\ll |\mathcal{W}|$ and a map $E:\mathcal{W} \to \mathbb{R}^d$ that allow one to encoder each word as a vector where word with similar meaning stay close to one another. This is not a math statement but rather an observed fact.</p>
 <p>The classification problem mention in the beginning now can be seen as classification of sequences of various length where each terms of the sequences are in $\mathbb{R}^d$. A more general set up is having finite sequence $x_1,x_2,...,x_L$ in $\mathbb{R}^d$, find a map $f$ to the output space $Y$, which can be continuous or discreet. This is an example of time series analysis. To deal with time series, we introduce  recurrent neural network.</p>
+</div>
 </div>
 </div>
 </div>
@@ -8592,7 +8817,9 @@ $$</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Recurrent-Neural-Network-(RNN)">Recurrent Neural Network (RNN)<a class="anchor-link" href="#Recurrent-Neural-Network-(RNN)">¶</a></h3><p>The text $A_1=x_1,x_2,...,x_{L_{A_1}}$, where $x_i\in \mathbb{R}^d$. Any model that can classify this text should look at the whole text to do so. Let's try formulate this question of classifying text mathematically. Basically, we want a function $f$ that take input as finite sequence in $\mathbb{R}^d$ to $\mathbb{R}^3$, such that if the sequence coming from sport article, healths, and politics, $f$ would map it to $e_1$,$e_2$ and $e_3$, respectively. We can not find such a function, what we can do is to approximate it.</p>
+<h3 id="Recurrent-Neural-Network-(RNN)">Recurrent Neural Network (RNN)<a class="anchor-link" href="#Recurrent-Neural-Network-(RNN)">¶</a></h3>
+<div style="font-size: 18px; text-align: center;">
+<p>The text $A_1=x_1,x_2,...,x_{L_{A_1}}$, where $x_i\in \mathbb{R}^d$. Any model that can classify this text should look at the whole text to do so. Let's try formulate this question of classifying text mathematically. Basically, we want a function $f$ that take input as finite sequence in $\mathbb{R}^d$ to $\mathbb{R}^3$, such that if the sequence coming from sport article, healths, and politics, $f$ would map it to $e_1$,$e_2$ and $e_3$, respectively. We can not find such a function, what we can do is to approximate it.</p>
 <p>One way to we can do is to train a several layers neural network that take the concatenation of $x_i$, that is long vectors. However, here we run to the same problem of large dimensional space. The recurrent neural network was proposed to process sequence of any length and at the same time require relatively small number of parameters.</p>
 <p>A recurrent neural network (RNN) processing the sequence $x_1,x_2,...,x_T$ is defined as follow 
 $$
@@ -8611,13 +8838,19 @@ $$
 \end{cases}
 $$
 Now we present a version of the universal approximation theorem of the RNN.</p>
+</div>
+<div style="background-color: #EADCB9; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
+
 <p><strong>Theorem</strong>
     Let $F_1(x_1),F_2(x_1,x_2),...,F_T(x_1,..,x_T)$ be continuous functions with $x_i\in A\subset \mathbb{R}^d$ and their output are in $\mathbb{R}^m$. If $A$ is compact, then for any $\varepsilon&gt;0$, there exist appropriate weight $W_x,W_h,W_y,b_h,b_y$ such that 
     $$
     \sup_{1\leq t\leq T}\sup_{x_i\in  A}|F_t(x_1,..,x_t)-y_t|\leq \varepsilon
     $$
  where $y_t$ is the output of the recurrent neural network with weights $W_x,W_h,W_y,b_h$ and $ b_y$.</p>
-<p>We will not prove this theorem here.</p>
+</div>
+<div style="font-size: 18px; text-align: center;">
+ <p>We will not prove this theorem here.</p>
+</div>
 </div>
 </div>
 </div>
@@ -8628,9 +8861,17 @@ Now we present a version of the universal approximation theorem of the RNN.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Other-Variant-of-RNN">Other Variant of RNN<a class="anchor-link" href="#Other-Variant-of-RNN">¶</a></h3><p>During training an RNN, we need to approximate gradient of the derivative of the model, which is a composition of functions. The longer the input sequence, the deeper the composition, and this leads to error in the approximation. Two phenomenons at least can happen, one is the gradient become close to zero, leading to slow training, and the other is the gradient is too large leading to unstable learning. To address these issue, various varience of RNN has been introduced. We will introduce two of them here and from now on <strong>we will call all of them as RNN, and all that we care for is the hidden state $h_t$</strong>.</p>
-<h3 id="Long-Short-Term-Memory:-LSTM">Long Short Term Memory: LSTM<a class="anchor-link" href="#Long-Short-Term-Memory:-LSTM">¶</a></h3><p>An LSTM consists of several key components called gates or cells. These components include the forget gate, input gate, cell state update, and output gate.</p>
+<h3 id="Other-Variant-of-RNN">Other Variant of RNN<a class="anchor-link" href="#Other-Variant-of-RNN">¶</a></h3>
+<div style="font-size: 18px; text-align: center;">
+<p>During training an RNN, we need to approximate gradient of the derivative of the model, which is a composition of functions. The longer the input sequence, the deeper the composition, and this leads to error in the approximation. Two phenomenons at least can happen, one is the gradient become close to zero, leading to slow training, and the other is the gradient is too large leading to unstable learning. To address these issue, various varience of RNN has been introduced. We will introduce two of them here and from now on <strong>we will call all of them as RNN, and all that we care for is the hidden state $h_t$</strong>.</p>
+</div>
+<h3 id="Long-Short-Term-Memory:-LSTM">Long Short Term Memory: LSTM<a class="anchor-link" href="#Long-Short-Term-Memory:-LSTM">¶</a></h3>
+<div style="font-size: 18px; text-align: center;">
+<p>An LSTM consists of several key components called gates or cells. These components include the forget gate, input gate, cell state update, and output gate.</p>
+
 <p>Given the input at time step $ t $, $ \mathbf{x}_t $, the previous hidden state $ \mathbf{h}_{t-1} $, and the previous cell state $ \mathbf{C}_{t-1} $, the LSTM cell performs the following operations:</p>
+</div>
+<div style="font-size: 18px">
 <ol>
 <li><p>Forget Gate:
 $$
@@ -8664,6 +8905,8 @@ $$
 $$</p>
 </li>
 </ol>
+</div>
+<div style="font-size: 18px">
 <p>In summary, the equations for the LSTM cell are:</p>
 \begin{align*}
     \mathbf{f}_t &amp;= \sigma(\mathbf{W}_f \mathbf{x}_t + \mathbf{U}_f \mathbf{h}_{t-1} + \mathbf{b}_f) \\
@@ -8673,8 +8916,14 @@ $$</p>
     \mathbf{o}_t &amp;= \sigma(\mathbf{W}_o \mathbf{x}_t + \mathbf{U}_o \mathbf{h}_{t-1} + \mathbf{b}_o) \\
     \mathbf{h}_t &amp;= \mathbf{o}_t \odot \tanh(\mathbf{C}_t)
 \end{align*}<p>Here, $ \mathbf{W}_f, \mathbf{W}_i, \mathbf{W}_C, \mathbf{W}_o $ are the weight matrices for the respective gates, $ \mathbf{U}_f, \mathbf{U}_i, \mathbf{U}_C, \mathbf{U}_o $ are the weight matrices for the hidden state, and $ \mathbf{b}_f, \mathbf{b}_i, \mathbf{b}_C, \mathbf{b}_o $ are the bias vectors.</p>
-<h3 id="Gated-Recurrent-Unit">Gated Recurrent Unit<a class="anchor-link" href="#Gated-Recurrent-Unit">¶</a></h3><p>A GRU consists of two main gates that manage the update of the hidden state: the reset gate and the update gate.</p>
+</div>
+<h3 id="Gated-Recurrent-Unit">Gated Recurrent Unit<a class="anchor-link" href="#Gated-Recurrent-Unit">¶</a></h3>
+<div style="font-size: 18px; text-align: center;">
+<p>A GRU consists of two main gates that manage the update of the hidden state: the reset gate and the update gate.</p>
+
 <p>Given the input at time step $ t $, $ \mathbf{x}_t $, and the previous hidden state $ \mathbf{h}_{t-1} $, the GRU cell performs the following operations:</p>
+</div>
+<div style="font-size: 18px">
 <ol>
 <li><p>Reset Gate:
 $$
@@ -8700,6 +8949,7 @@ $$
 $$</p>
 </li>
 </ol>
+
 <p>In summary, the equations for the GRU cell are:</p>
 \begin{align*}
     \mathbf{r}_t &amp;= \sigma(\mathbf{W}_r \mathbf{x}_t + \mathbf{U}_r \mathbf{h}_{t-1} + \mathbf{b}_r) \\
@@ -8711,13 +8961,16 @@ $$</p>
 </div>
 </div>
 </div>
+</div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1c653f6e-074a-4dd4-8264-9778f4232c33">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="RNN-Based-Language-Model">RNN Based Language Model<a class="anchor-link" href="#RNN-Based-Language-Model">¶</a></h2><p>A language model is a function that takes sequence of words as input and output a new word. This allows one to get another new word using the word just genereated and the previous word and one can keep produce as many word as one wants this way. This is called auto-regressive model.</p>
+<h2 id="RNN-Based-Language-Model">RNN Based Language Model<a class="anchor-link" href="#RNN-Based-Language-Model">¶</a></h2>
+<div style="font-size: 18px; text-align: center;">
+<p>A language model is a function that takes sequence of words as input and output a new word. This allows one to get another new word using the word just genereated and the previous word and one can keep produce as many word as one wants this way. This is called auto-regressive model.</p>
 <p>In this section, we would build a character level language model based on RNN. What we mean is we would use one of the RNN model to process a squence and use the hidden state to produce the resulting prediction.</p>
 <p>The strategy is as follow. First we one hot encode each character, ie if the list of characers are $\{c_1,c_2,..,c_K\}$, then $\text{one-hot}(c_j)=e_j\in \mathbb{R}^K$. Next we will project this embedding into another space $\mathbb{R}^d$ via a map $E:\mathbb{R}^K\to \mathbb{R}^d$, this process is called continuous embedding, and it can be done by multiplying $e_j$ by a matrix $E$, which is a learnable parameters. This whole process allow us to turn a sequnece of character to a sequence of vectors in $\mathbb{R}^d$, and from here we can use an RNN to approximate 
 $$
@@ -8732,6 +8985,7 @@ $$
 $$
 Another thing to note is that we probably want to train a batch of data at the same time, this mean we should stable text at several places at time, and each place we would take 33 characters.</p>
 <p>Next we want to talk about continuous embedding. Earlier, we mention that we should do one hot encoding and then map it to a low dimensional space. This is unnessary in PyTorch. Let's me explain this. Say we have the text T=hello, then directionary for this text is {e,h,l,o}, we can label e as 1, h as 2, l as 3 and o as 4, and the text is translated to 21334. Note that the vocabulary size is 4. The object <code>nn.Embedding(4,3)</code> take input of shape (batch_size,sequence_lenght) with each entry as "interger" and produce output of shape (batch_size, sequence_length,3=embedding_dimension). So basically, as soon as we encode a text as sequence of integers, we can feed it to <code>nn.Embedding(4,3)</code> to get continous embedding. Note that 4 here is the size of the vocabylary.</p>
+</div>
 </div>
 </div>
 </div>
@@ -8773,7 +9027,13 @@ Another thing to note is that we probably want to train a batch of data at the s
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The following text is news article about Grothendick by The Guardian.</p>
+  <div style="font-size: 18px; text-align: center;">
+    <p>The following text is a news article about Grothendieck by 
+      <a href="https://www.theguardian.com/science/article/2024/aug/31/alexander-grothendieck-huawei-ai-artificial-intelligence" target="_blank">
+      He was in mystic delirium’: was this hermit mathematician a forgotten genius whose ideas could transform AI – or a lonely madman?
+      </a> by The Guardian.</p>
+      
+</div>
 </div>
 </div>
 </div>
@@ -9005,10 +9265,13 @@ step 9999: train loss 0.2718, val loss 4.1391
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="The-n-gram-Language-Model">The n-gram Language Model<a class="anchor-link" href="#The-n-gram-Language-Model">¶</a></h2><p>We've seen that the RNN model earlier attempt to approximate $P(w_{L+1}|w_1,...,w_L)$. Another way to get this value is to actually count it. This is known as the <strong>n-gram</strong> model. Allow me to explain the 3-gram model and then you'll understand the n-gram model. Let's say we want to predict the next word based on 3 words before it that imitate a text $\mathcal{T}$, ie $\mathcal{T}$ is the training data. First we can ask what are possible combination of 3 words there is. If the text $\mathcal{T}$ is based on 1000 words, then there are $1000^3$ possible combination of 3 words. Next for each of the combination $w_1w_2w_3$, we count its occurence in the text, and cound what are the word that come after it and in what frequency, from here we can compute exact vocabulary.</p>
+<h2 id="The-n-gram-Language-Model">The n-gram Language Model<a class="anchor-link" href="#The-n-gram-Language-Model">¶</a></h2>
+<div style="font-size: 18px; text-align: center;">
+<p>We've seen that the RNN model earlier attempts to approximate $P(w_{L+1}|w_1,...,w_L)$. Another way to get this value is to actually count it, since this is a finite system. This is known as the <strong>n-gram</strong> model. Allow me to explain the 3-gram model and then you'll understand the n-gram model. Let's say we want to predict the next word based on 3 words before it that imitate a text $\mathcal{T}$, ie $\mathcal{T}$ is the training data. First we can ask what are possible combination of 3 words there is. If the text $\mathcal{T}$ is based on 1000 words, then there are $1000^3$ possible combination of 3 words. Next for each of the combination $w_1w_2w_3$, we count its occurence in the text, and cound what are the word that come after it and in what frequency, from here we can compute the exact probability.</p>
 <p>Our goal here is not to study the n-gram model itself, but to use it to help us understand better what the RNN and other lanaguage model does.</p>
-<p>Now what are some of the problem encounter by the n-gram model? First, one main issue is that the n-gram model would give uniform distribution for sequence of words that doesn't appear in the text. Consider creating an 2-gram model based on a text that the sequnce <strong>cat loves</strong> doesn't exist, when we ask the model to predict what come next after this sequnce, it will predict anyting can happen with eqaul probablity. We don't want something like that. The RNN model takes input as sequence of vectors, and it can process any sequence, so it doesn't face the problem that n-gram model has. One way one hope the RNN give good prediction is as follow: During embedding, as the model look through the text, it learns that the embedding of the word <strong>like</strong> and <strong>love</strong> are close, and it has seen what the sequence <strong>cat likes</strong> in the text, this allow us to give a non-uniform distribution for the <strong>$P(.|\text{cat loves})$</strong> based on what it seen for <strong>cat likes</strong>.</p>
+<p>Now what are some of the problem encounter by the n-gram model? First, one main issue is that the n-gram model would give uniform distribution for sequence of words that doesn't appear in the text. Consider creating an 2-gram model based on a text that the sequence <strong>cat loves</strong> doesn't exist, when we ask the model to predict what come next after this sequnce, it will predict anyting can happen with eqaul probablity. We don't want something like that. The RNN model takes input as sequence of vectors, and it can process any sequence, so it doesn't face the problem that n-gram model has. One way one hope the RNN give good prediction is as follow: During embedding, as the model look through the text, it learns that the embedding of the word <strong>like</strong> and <strong>love</strong> are close, and it has seen what the sequence <strong>cat likes</strong> in the text, this allow us to give a non-uniform distribution for the <strong>$P(.|\text{cat loves})$</strong> based on what it seen for <strong>cat likes</strong>. <strong>One question one can ask is does does the RNN do more than an modifcation of the n-gram model?</strong> By modified RNN here we mean to the model first regroup all possible 3 words sentences based on their similar meaning and then do the 3-gram model on that.</p>
 <p>The hope here is that embedding learned during the training of the RNN is a way that allow us to embed each word in $\mathbb{R}^N$ that allow words with similar meaning to be nearby.</p>
+</div>
 </div>
 </div>
 </div>
@@ -9019,7 +9282,11 @@ step 9999: train loss 0.2718, val loss 4.1391
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Transformer-Model">Transformer Model<a class="anchor-link" href="#Transformer-Model">¶</a></h2><p>Transformer was first introduced by Vaswani et al, in 2017 in the widely cited paper <strong>"Attention is all we need"</strong>, where the author tested it as neural network based machine translation model. <strong>Andrej Karpathy</strong> thinks of attention mechanism as a way for words to communicate with each other. The following presentation is how I like to think about attention.</p>
+<h2 id="Transformer-Model">Transformer Model<a class="anchor-link" href="#Transformer-Model">¶</a></h2>
+<div style="font-size: 18px; text-align: center;">
+  <p>Transformer was first introduced by Vaswani et al., in 2017 in the widely cited paper <strong><a href="https://doi.org/10.48550/arXiv.1706.03762" target="_blank">"Attention Is All You Need"</a></strong>, where the authors tested it as a neural network-based machine translation model. <strong>Andrej Karpathy</strong> thinks of attention mechanism as a way for words in a sentence to communicate with each other. The following presentation is how I like to think about attention.</p>
+
+</div>
 </div>
 </div>
 </div>
@@ -9030,7 +9297,8 @@ step 9999: train loss 0.2718, val loss 4.1391
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Decoder-only-transformer">Decoder only transformer<a class="anchor-link" href="#Decoder-only-transformer">¶</a></h3><p>Transformer was first introduced by Vaswani et al, in 2017 in the widely cited paper <strong>"Attention is all we need"</strong>, where the author tested it as neural network based machine translation model. <strong>Andrej Karpathy</strong> thinks of attention mechanism as a way for words to communicate with each other. The following presentation is how I like to think about attention.</p>
+<h3 id="Decoder-only-transformer">Decoder only transformer<a class="anchor-link" href="#Decoder-only-transformer">¶</a></h3>
+<div style="font-size: 18px; text-align: center;">
 <p>Earlier we used RNNs to generate the next word by processing all  previous words that it see. We can think of this as the RNN take a sequence $w_1w_2...w_N$ and then turn it to sequence of vector $x_1x_2...x_N$ via continuous word embedding, and condense this sequence to get $h_1,h_2,...h_N$, and then we use this $h_N$ to predict the next word. We can think of $h_i$ as contain richer and richer information about the sequence $x_1...x_N$ as $i$ increases.</p>
 <p>The way we condense the sequence $x_1x_2...x_N$ using RNN is highly non-linear, and highly non-commutative. The transformer model is somewhat less non-comutative, and in practice turn out to be a lot easier to train.</p>
 <p>Now say we have the sequence $x_1,x_2,...x_N$, the vector 
@@ -9041,19 +9309,25 @@ could contain the information of the sequence $x_1x_2..x_N$, but probably we sho
 $$
 v=a_1x_1+a_2x_2+....+a_Nx_N
 $$
-with $a_1,a_2,...a_N$ are some real numbers. The transformer model suggests the following steps:</p>
+with $a_1,a_2,...a_N$ are some real numbers. The appropriate choice of $a_1,...,a_N$ would give us a represention of the sentence $x_1...x_N$. The transformer model suggests somewhat different from this, it suggest we should upgrade the embedding of each word $x_i$ in the sentence to incooperate the context it is in. This context enrichment take embedding vector $x_i\in \mathbb{R}^d$ to $y_i=a_1^ix_1+a_2^ix_2+....+a_N^ix_N$ of the same dimension. The coefficient $a_j^i$ depends on both $x_i$ and $x_j$. Further more instead of combining $x_j$ itself, the model use another linear transformed of $x_j$ call value vector, denoted by $v_j$. Here is the summery of how the model work roughly.</p>
+</div>
+<div style="font-size: 18px">
 <ol>
-<li>Convert $x_i$ to $q_i$,$k_i$ and $v_i$, called query, key and value of $x_i$, respectively.</li>
+<li>Convert $x_j$ to $q_j$,$k_j$ and $v_j$, called query, key and value of $x_j$, respectively.</li>
 <li>Compute dot product $e_j^i=(q_i,k_j)$, called scores.</li>
-<li>Turn the vector $E^i=(e_1^i,...,e_N^j)$ into convex hall coefficent vector via softmax, ie $A^i=\text{SoftMax}(E^i)$, $A^i$ is called attention.</li>
+<li>Turn the score vector $E^i=(e_1^i,...,e_N^j)$ into convex hall coefficents vector via softmax, ie $A^i=\text{SoftMax}(E^i)$, $A^i$ is called attention.</li>
 <li>Compute the convex combination $y_i=a_1^iv_1+...+a_N^iv_N$, where $A^i=(a_1,...,a_n)$.</li>
 </ol>
+</div>
+<div style="font-size: 18px; text-align: center;">
 <p>Now we transform $x_1,x_2,...x_N$ to $y_1,y_2,...,y_N$. We want to think of $y_i$ as an enriched version of $x_i$, based on the context sequence $x_1...x_N$.</p>
 <p>Let me explain what I think could be the motivation, people in ML community has several different way of thinking about this and here I present what I think what happen.</p>
 <p>First, how do we convert $x_i$ to key, query and value vectors, this is done by multiplying $x_i$ by matrix $W_K,W_Q$, and $W_V$, and these matrices are learned during training. This allows us to give different represent of $x_i$ for different usages. Computing the dot product to get $e^i_j$ allow us to measure a sense of interaction/relation between $x_i$ and $x_j$ and this computation isn't the direct dot product of these two vectors but rather their other representations.</p>
 <p>Onbiously, the computation of $y_i$ are highly non-linear since it involve using SoftMax function. However, because we only use that as a linear coefficent, this make $y$ like a linear combination of $x$. Next, we note that $y_i$ is independent of the order of $x_j$, this is rather different from the case with RNN.</p>
 <p>The process we've seen so far is called attention, actually almost. Next we write down equation for attention mechanism that is more efficent and add correction term.
 First we make a matrix $X=[x_1,x_2...,x_N]$, and the equation for key, query, value, score and attention is as follow</p>
+</div>
+<div style="font-size: 18px">
 <ol>
 <li>$ K = W_K X $, $ Q = W_Q X $, $ V = W_V X $</li>
 <li>Score matrix $E=\left(\dfrac{K^T Q}{\sqrt{d}}\right)$.</li>
@@ -9087,13 +9361,15 @@ $$</p>
 </div>
 </div>
 </div>
+</div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=167dc7c6-c73b-4137-ba96-797380709b07">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>To aid training, the dynamical equation of the attention block is modified further</p>
+  <div style="font-size: 18px; text-align: center;">
+  <p>To aid training, the dynamical equation of the attention block is modified further</p>
 $$
 \begin{cases}
 X^{i+1}&amp;=\text{LayNorm}(\text{FFN}(\text{LayNorm}(\text{Attn}(X^i))+X^i))+X^i\\
@@ -9105,15 +9381,25 @@ $$<p>Where $E$ is a fixed matrix, could be learnable, to make the model non-comm
 </div>
 </div>
 </div>
+</div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=228ebde7-f4ff-48fe-87e7-73a39f509410">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Coding-The-transformer:-Masked-Attention">Coding The transformer: Masked Attention<a class="anchor-link" href="#Coding-The-transformer:-Masked-Attention">¶</a></h3><p>When we train the RNN, we used our input is of the form $x_1x_2...x_N$ and output is $x_2x_3....x_{N+1}$. The RNN process $x_1x_2....x_N$ and produce context representation $h_1h_2...h_N$, then we use linear classifer using $h_i$ as input to predict $x_{i+1}$.</p>
+<h3 id="Coding-The-transformer:-Masked-Attention">Coding The transformer: Masked Attention<a class="anchor-link" href="#Coding-The-transformer:-Masked-Attention">¶</a></h3>
+<div style="font-size: 18px; text-align: center;">
+<p>When we train the RNN, we used our input is of the form $x_1x_2...x_N$ and output is $x_2x_3....x_{N+1}$. The RNN process $x_1x_2....x_N$ and produce context representation $h_1h_2...h_N$, then we use linear classifer using $h_i$ as input to predict $x_{i+1}$.</p>
 <p>Let's say we have a transformer of $L$ layers, processing input sequence $X=X^0=[x^0_1...x_N^0]$ and produce output $X^L=[x_0^L...x_N^L]$, which is an enriched version of $x_i^0$ based on the context sentence $[x_1^0...x_N^0]$. We want use $x_i^L$ playing the role of $h_i$ to predict $x_{i+1}$ as we did in the case of RNN. However, in the making of $x_i^L$, we use the whole sentence $X$, so it is a cheat if we use $x_i^L$ to predict $x_{i+1}$ if $i&lt;L$. To remedy this situation, <strong>masked attention</strong> is introduced. Recalled that, for a fixed $i$, the attented $y_i=\alpha_1v_1+\alpha_2v_2+...+\alpha_Nv_N$. To prevent $y_i$ to not depend on $x_j$ with $j&gt;i$, we can just require $\alpha_j=0$ if $j&gt;i$. This can be achieved by adding a triangular matrix $T$ to the score $E$, where $T_{ij}=-\infty$ if $j&gt;i$. Annother way to do this is to turn elements above the diagonal of attention score $E$ to $-\infty$, this is the method used in the code given below.</p>
-<p>The following code is copied from <strong>Andrej Karpathy's GPT2</strong> code. The strategy of the code is as follow:</p>
+<p>
+  When we train the model, we use $x^L_i$ to predict $x_{i+1}$, this forces $x_i^L$ to be the representation of sequence $x_1...x_i$ rather than just a contextuall, enriched version of the embedding $x_i$.
+</p>
+<p>The following code is copied from <strong>Andrej Karpathy's GPT2</strong> code.  You can visit his GitHub repository by clicking <a href="https://github.com/karpathy/nanoGPT.git" target="_blank">here</a>. The strategy of the code is as follows:
+</p>
+
+</div>
+<div style="font-size: 18px">
 <ol>
 <li>Create attention head object</li>
 <li>Assemble attention heads to create Multihead Attention object</li>
@@ -9121,7 +9407,10 @@ $$<p>Where $E$ is a fixed matrix, could be learnable, to make the model non-comm
 <li>Create an Attention Block object by Composing Multihead Attention with Feed Foreword Layer</li>
 <li>Create a GPT2 object by composing multiple attention blocks and followed by a linear classifier</li>
 </ol>
+</div>
+<div style="font-size: 18px; text-align: center;">
 <p>Note that in the GPT2 object, there are three part to it, the first two is expected, which is the part that contains various components of the transformers, and the forward part which assemble various component. The last part is the <strong>generator</strong>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -9161,7 +9450,9 @@ $$<p>Where $E$ is a fixed matrix, could be learnable, to make the model non-comm
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The data preparation, loss function part are the same as we have for RNN above. So we won't do it again here. Also we use the same text used to train the RNN.</p>
+  <div style="font-size: 18px; text-align: center;">
+  <p>The data preparation, loss function part are the same as we have for RNN above. So we won't do it again here. Also we use the same text used to train the RNN.</p>
+  </div>
 </div>
 </div>
 </div>
@@ -9382,14 +9673,23 @@ step 9999: train loss 0.2592, val loss 4.9776
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Making-a-ChatBot:-Fine-Tuning">Making a ChatBot: Fine Tuning<a class="anchor-link" href="#Making-a-ChatBot:-Fine-Tuning">¶</a></h3><p>The training we shown above is known as <strong>pre-training</strong>. What it mean is that we adjust the weight of the transformer to imitate our language. At this stage, the transformer is not yet a chatbot, i.e., it is not designed to give answers to the questions we ask. Instead, it is learning general language patterns. To turn the transformer into a chatbot, another round of training is needed, it is called <strong>fine-tuning</strong>.</p>
+<h3 id="Making-a-ChatBot:-Fine-Tuning">Making a ChatBot: Fine Tuning<a class="anchor-link" href="#Making-a-ChatBot:-Fine-Tuning">¶</a></h3>
+<div style="font-size: 18px; text-align: center;">
+<p>The training we shown above is known as <strong>pre-training</strong>. What it mean is that we adjust the weight of the transformer to imitate our language. At this stage, the transformer is not yet a chatbot, i.e., it is not designed to give answers to the questions we ask. Instead, it is learning general language patterns. To turn the transformer into a chatbot, another round of training is needed, it is called <strong>fine-tuning</strong>.</p>
 <p>The idea of fine-tuning is this. Let’s say we have a pre-trained transformer $ T $ that was trained on a large text corpus and is able to produce coherent sentences. However, while it knows how to generate meaningful language, it doesn’t yet know how to respond to specific types of questions or follow conversational patterns. Now we want it to answer questions in a certain way. To achieve this, we collect a set of question-answer pairs</p>
 $$
 F = \{(q_1, a_1), \dots, (q_N, a_N)\}.
 $$<p>The answers $ a_i $ might reflect a specific tone, style, or format we prefer (e.g., polite responses or concise technical explanations). The fine-tuning process involves training the transformer on this dataset $ F $, adjusting its weights to mimic the behavior reflected in the answers $ a_i $.</p>
 <p>In addition to mimicking the answers, fine-tuning helps the transformer learn the structure of the interaction between questions and answers, refining its ability to respond in a coherent and context-aware manner. The hope is that it can generalize beyond the training examples $ q_i $ to answer new questions $ q $ that it hasn’t seen before. Fine-tuning can also involve techniques like <strong>reinforcement learning with feedback</strong> (e.g., using human preferences to further align its behavior), which helps improve its performance in more complex scenarios.</p>
 <p>This process ensures the transformer goes from generating general language to behaving like a chatbot, giving responses that align with the desired conversational behavior.</p>
-<h3 id="Universal-Approximation-Theorem-for-Transformer">Universal Approximation Theorem for Transformer<a class="anchor-link" href="#Universal-Approximation-Theorem-for-Transformer">¶</a></h3><p>Obviously someone would want to prove that transformer can approximate any function and in fact such a theorem exist. Basically they prove that a certain class of transfromer can approximate any sequence of continous functions. There are also people who prove that there are certain class of transfomer that can't approximate sequence of continous function. Such a theorem is interesting in its own and refer the interested reader to look for them. We recommend two papers, 1) <strong>Are Transformers universal approximators of sequence-to-sequence functions?</strong> by C Yun, et al, 2) <strong>Your Transformer May Not be as Powerful as You Expect</strong> by Luo et al.</p>
+</div>
+<h3 id="Universal-Approximation-Theorem-for-Transformer">Universal Approximation Theorem for Transformer<a class="anchor-link" href="#Universal-Approximation-Theorem-for-Transformer">¶</a></h3>
+<div style="font-size: 18px; text-align: center;">
+  <p>Obviously someone would want to prove that transformer can approximate any function and in fact such a theorem exist. Basically they prove that a certain class of transformer can approximate any sequence of continuous functions. There are also people who prove that there are certain classes of transformer that can't approximate sequences of continuous functions. Such a theorem is interesting in its own and we refer the interested reader to look for them. We recommend two papers: 
+    1) <strong><a href="https://doi.org/10.48550/arXiv.1912.10077" target="_blank">Are Transformers universal approximators of sequence-to-sequence functions?</a></strong> by C Yun et al., and 
+    2) <strong><a href="https://proceedings.neurips.cc/paper_files/paper/2022/file/1ba5f64159d67775a251cf9ce386a2b9-Paper-Conference.pdf" target="_blank">Your Transformer May Not be as Powerful as You Expect</a></strong> by Luo et al.</p>    
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -9400,18 +9700,35 @@ $$<p>The answers $ a_i $ might reflect a specific tone, style, or format we pref
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="My-thought-about-language-model-and-some-open-questions">My thought about language model and some open questions<a class="anchor-link" href="#My-thought-about-language-model-and-some-open-questions">¶</a></h1><p>There are lots of discussion about whether or not a language model understand the language it's processing. A quick objection to this is that we need to clarify what we mean by understand this lead to a philosophical rabit hole. I am just ignore that and I would just going to state my view, which is there isn't anything deep about language model, and I think the implication of the success we seen so far is to do with the fact that Our Languge is not as complicated as we've thought!. However, I believe there are some fundamental quantities to be discovered about language. I'll explain all these as follow.</p>
-<h3 id="The-question-of-understanding">The question of understanding<a class="anchor-link" href="#The-question-of-understanding">¶</a></h3><p>Imagine we have a set of $ P = p_1, p_2, \ldots, p_N $ distinct points in the plane. We cluster them into $ P = \bigcup_{i=1}^k P_i $, with $ k &lt; N $, this might be considered as different type of part of speech. Now let's equip the set $ \{P_1, P_2, \ldots, P_k\} $ with partial order $ \mathcal{R} $. Now, we define a finite sentence $ p_{s_1} \ldots p_{s_l} $ of point in $ P $ such that consecutive points belong to set $ P_i $ that respects the ordered relation $ \mathcal{R} $. This put some structure on the type of sentence one can product.</p>
-<p>Let's entertain that we create so many of these sentences and glue them to form a large text called $ \mathcal{T} $. Now we want to pre-train a transformer to create sentences the manner we define earlier. Obviously, one probably guess that if $ N $ is very large, and the structure of $\mathcal{R} $ is complicated, then it might be hard for the transformer to produce correct sentences, however, if $ N $ is not too large, and $ \mathcal{R} $ doesn't have too many sub-relation, then sure enough the transformer would remember $ \mathcal{T} $.</p>
+
+<h1 id="My-thought-about-language-model-and-some-open-questions"> My thought about language model and some open questions<a class="anchor-link" href="#My-thought-about-language-model-and-some-open-questions">¶</a></h1> 
+<div style="font-size: 18px; text-align: center;">
+<p>There are lots of discussion about whether or not a language model understand the language it's processing. A quick objection to this is that we need to clarify what we mean by understand this lead to a philosophical rabit hole. I am just ignore that and I would just going to state my view, which is <strong>there isn't anything deep about language model</strong>, and I think <strong>the success of LLM is due to the fact that our languge is not as complicated as we've thought!</strong>. I believe <strong>there are some fundamental quantities to be discovered about language</strong>. I'll explain all these as follow.</p>
+</div>
+<h2 id="The-question-of-understanding">The question of understanding<a class="anchor-link" href="#The-question-of-understanding">¶</a></h3>
+<div style="font-size: 18px; text-align: center;">
+<p>Imagine we have a set of $ P =\{ p_1, p_2, \ldots, p_N \}$ distinct points in the plane. We cluster them into $ P = \bigcup_{i=1}^k P_i $, with $ k &lt; N $, this might be considered as different type of part of speech. Now let's equip the set $ \{P_1, P_2, \ldots, P_k\} $ with partial order $ \mathcal{R} $. Now, we define a finite sentence $ p_{s_1} \ldots p_{s_l} $ of point in $ P $ such that consecutive points belong to set $ P_i $ that respects the ordered relation $ \mathcal{R} $. This put some structure on sentences one can product.</p>
+<p>Let's entertain that we create so many of these sentences and glue them to form a large text called $ \mathcal{T} $. Now we want to train a transformer to create sentences the manner we define earlier. Obviously, one probably guess that if $ N $ is very large, and the structure of $\mathcal{R} $ is complicated, then it might be hard for the transformer to produce correct sentences, however, if $ N $ is not too large, and $ \mathcal{R} $ doesn't have too many sub-relation, then sure enough the transformer would remember $ \mathcal{T} $.</p>
 <p>If a transformer can remember $ \mathcal{T} $, would we say that it understand the language we describe above? This question doesn't make sense since that language is not anything to be understood to start with, it is just tracing through a collection of points in plane. So essentially, what the transformer does is it remember the structure its see and it does this by mimicking what it see during gradient decent. So a better name should be <strong>machine imitation</strong>.</p>
-<h3 id="The-question-of-complexity">The question of complexity<a class="anchor-link" href="#The-question-of-complexity">¶</a></h3><p>As speculated in the previous section, if $\mathcal{R}$ is not too complex and $N$ is not too large, then it is reasonable to expect that we can train a transformer to remember the language generated via $\mathcal{R}$. The question is how to make all this precise and how to quantify this complexity. It would be interesting if such a quantity exists—one that can serve as a necessary and sufficient condition to prove that the language is parameterizable by a transformer. If such a measure is found, it might open up possibilities for exploring other architectures beyond transformers. Also I am not saying that our language is a form of ordered relation. The ordered relation $\mathcal{R}$ is used to illustrate a time of language we could have.</p>
-<p>An explanation for why our language may not be that complicated likely lies in the fact that we, as humans, are not that complicated a machines. After all, we are designed primarily to survive and procreate, and language developed as a tool to aid in these goals. It follows that language itself shouldn't be overly complex—it only needs to be functional enough to serve our basic needs.</p>
-<h3 id="The-Question-of-Reasoning">The Question of Reasoning<a class="anchor-link" href="#The-Question-of-Reasoning">¶</a></h3><p>Can we design a language model that can do mathematical reasoning? I would think the answer depeneds on how complicated reasoning is. If we can define reasoning as a form of language, assuming we can define language complexity too, this would allow us to answer the question if we can model reason.</p>
-<h3 id="Language-Model-or-Culture-Model">Language Model or Culture Model<a class="anchor-link" href="#Language-Model-or-Culture-Model">¶</a></h3><p>Some people imagine there is sort of real generator out there generating language and a languge model attempt to approximate it, the word people use is that the model try to learn the real generator.</p>
+</div>
+<h2 id="The-question-of-complexity:-Why-it-work?">The question of complexity: Why it work?<a class="anchor-link" href="#The-question-of-complexity:-Why-it-work?">¶</a></h3>
+<div style="font-size: 18px; text-align: center;">
+<p>As speculated in the previous section, if $\mathcal{R}$ is not too complex and $N$ is not too large, then it is reasonable to expect that we can train a transformer to remember the language generated via $\mathcal{R}$. The question is how to make all this precise and how to quantify this complexity. It would be interesting if such a quantity exists—one that can serve as a necessary and sufficient condition to prove that the language is parameterizable by a transformer. If such a measure is found, it might open up possibilities for exploring other architectures beyond transformers. Also I am not saying that our language is a form of ordered relation. The ordered relation $\mathcal{R}$ is used as illustration. Our language may not be that complicated. The human's mind is rather simple. What spoken by such a mind must be repeatitive and therefore a sense of structure, which is grammar, emerges.</p>
+<p>My belief is that during training, a language model does two things: (1) searches for good representations of words that reduce the complexity of the language, and (2) approximates the relationships between words, similar to an n-gram model. These two steps happen in parallel, as this is how gradient descent works.</p>
+<p>Recall that the attention equation is $y_i = \sum \alpha_j v_j$. During training, the model adjusts both the embedding of $x_j$ and the coefficient $\alpha_j$. I believe that this adjustment reorganizes and regroups words in a way that makes it easier for the model to cluster sentences, thereby enabling it to perform a form of n-gram modeling. However, the model can only achieve this if the language we provide is simple enough.</p>
+<p>Sometimes we see a language model generate good reasoning. People have been talking about emergent phenomena in language models—saying that when the model is large enough, it suddenly can do certain things. My belief is that larger models can approximate the n-gram model better. As the probabilities become closer and closer to the true probability distribution, some forms of reasoning seen in the training text emerge, along with "facts" from the training. The reason I use quotation marks is that these are solely based on the training text. Imagine a prolific author writing fiction equivalent in size to the entire text corpus used to train large language models, and we train the model on this story. The model would then give us answers solely based on the facts within that book, while remaining completely oblivious to facts from the real world.</p>
+</div>
+<h2 id="The-Question-of-Reasoning:-What-else-can-it-do?">The Question of Reasoning: What else can it do?<a class="anchor-link" href="#The-Question-of-Reasoning:-What-else-can-it-do?">¶</a></h3>
+<div style="font-size: 18px; text-align: center;">
+<p>Can we design a language model that can perform mathematical reasoning? I think the answer depends on how complicated the reasoning is. If we can define reasoning as a form of language, and assume we can also define language complexity, this would allow us to determine whether reasoning can be modeled.</p>
+<p>As mentioned earlier, I believe the fact that language models work well suggests that our language is not as complex as we once thought. This stems from the limited capacity of our brains. Now, let's consider the question of persuasion. Suppose we want to design a machine that can persuade people on social media. How would we do this? Perhaps a good way to measure how much someone likes an argument is by tracking how long they engage with it and, ultimately, whether they react positively or just move past it. We could try to fine-tune a language model to generate sentences based on two inputs: (1) the idea we want to persuade people about, and (2) the person we want the model to convince. At this point, instead of minimizing loss, we would maximize a reward function, which should combine the time spent engaging with the argument and the action taken afterward. Would this approach succeed? I think the answer depends on how complex the human mind is in terms of belief formation.</p>
+<p>The example above is gloomy, so let me offer a more positive application of language models. Imagine we want to build an AI teacher that aligns with student sentiment and encourages students to continue learning. We could apply a similar framework to the persuasion machine described earlier. In developed countries, there is a lot of skepticism around such AI teachers, but in developing countries, where many students lack access to education, such AI teachers would certainly be better than nothing.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=11b8ad5c-8afe-464e-b810-85ac677a4e85">
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=3d4bb2a9-a90d-483e-af1c-da169dc8fc0b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
