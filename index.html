@@ -7570,17 +7570,17 @@ a.anchor-link {
 
 
 <p style="text-align: justify; line-height: 1.8; margin: 15px 130px; font-size: 18px;">
-    In this note, I will try to describe deep learning based language models. I try to present the model as mathematically 
-    concise as possible and along the way I will try to motivate terms involved. We will start with neural networks and walk 
-    our way till we get to transformer-based language models, the model used in the making of ChatGPT. In the end, I will 
-    explain my thoughts on why these things work, and pose some questions that I think are important. I will also try to 
-    show the coding part of all these, and for this, I used PyTorch.
+    In this note, I talk about deep learning based language models. I try to present the model as mathematically 
+    concise as possible and along the way motivate the terms involved. We start with neural networks and walk 
+    our way until we get to transformer-based language models, the model used in the making of ChatGPT. At the end, I 
+    explain my thoughts on why these things work, and pose some questions that I think are important. I also try to 
+    show the coding part of all these, and for this, I use PyTorch.
 </p>
 <p style="text-align: justify; line-height: 1.8; margin: 15px 130px; font-size: 18px;">
     I think Artificial Intelligence is one of the most consequential technologies in our lifetime. It is different from other 
-    technologies in that it is not hard to learn. It has so many potential uses and misuses. It is important that enough good 
-    people know it, and hopefully, we can steer it in a good direction. To be able to do something with a language model, 
-    we need to at least understand the model and be able to implement it.
+    technologies in that it is not hard to learn. It has so many potential uses and misuses. So it is important that enough good 
+    people know it, and hopefully, we can steer it in a good direction that is benificial to all. And to be able to do something with this technology, 
+    we need to at least understand the models and be able to implement it.
 </p>
 <p style="text-align: justify; line-height: 1.8; margin: 35px 130px; font-size: 18px;">
     I recommend the reader to read the "theory part" to get conceptual understanding first, and then proceed to read 
@@ -7648,7 +7648,7 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Inroduction:-Neural-Network">Inroduction: Neural Network<a class="anchor-link" href="#Inroduction:-Neural-Network">¶</a></h1>
 <div style="font-size: 18px; text-align: center;">
-<p>Let's imagine that our body receive a signal, say through the eyes, this signal go through the eyes and flow from one group of neurons to the next until it reaches a certain place where we make a certain judgement of that signal, say whether it is a cat or a flower. How to make a mathematical model of this process?</p>
+<p>Let's imagine that our body receives a signal, say through the eyes, this signal goes through the eyes and flows from one group of neurons to the next until it reaches a certain place where we make a certain judgement about signal, say whether it is a cat or a flower. How to make a mathematical model of this process?</p>
 <p>Let $x$ be a signal. After receiving the signal, the input signal $x$ goes to a first group neurons $N_{1}^1,N_{2}^1,..,N_{k_1}^1$, neurons in the first layer, each $N_{i}^1$ processes information it received and passes it to deeper group of neuron $N_{1}^1,...,N_{k_2}^2$, neurons in the second layer, this process continue until the signal reaches a certain depth $L$ with neurons $N_{1}^L,...,N_{K_{L}}^L$, neurons in the L-th layer, and the result from these last group combined to produce an output.</p>
 </div>
 </div>
@@ -7786,7 +7786,7 @@ x_{j}^i &amp;= \sum_{l=1}^{k_i} a_{l}^i x_{l}^{i-1} + b_{ij} \\
        &amp;= (a_{i1}, \ldots, a_{ik_j}) \cdot (x_{(i-1)1}, \ldots, x_{(i-1)k_j}) + b_{ij}
        \end{align*}
 Here $(a_{1}^i,...,a_{k_j})^i$ is the weight vector of neuron $N_{j}^i$ uses to process information giving to it from the (i-1)-th layer. Here each neuron has its own weight vectors. All this can be efficient pack as matrix multiplication and add a vector. Basically, the result from one layer of the neuron to the next is the result of an affine transforming of its input vectors.</p>
-<p>The above implies that we can use affine transformations to model how each layer of neuron processes its input and passes that result  to the next. So to model information flow in the brain through neuron, we can just compose such a map. However, composition of affine transformation is an affine transformation, this is equivalent to just one layers of neurons, to obtain the notion of multi-layers, we let the output of each layers passes through a non-linear function first before sending it forward.</p>
+<p>The above implies that we can use affine transformations to model how each layer of neurons processes its input and passes that result  to the next. So to model information flow in the brain through neuron, we can just compose such a map. However, composition of affine transformations is an affine transformation, this is equivalent to just one layers of neurons, to obtain the notion of multi-layers, we let the output of each layers passes through a non-linear function first before sending it forward.</p>
   </div>
 </div>
 </div>
@@ -7808,7 +7808,7 @@ where each $ Af_i: \mathbb{R}^{d_{i-1}} \to \mathbb{R}^{d_i} $ is an affine map,
 </div>
 <div style="font-size: 18px; text-align: center;">
 <p>Let me clarify what we mean by <strong>"applied pointwise"</strong> here. Say we have a function $f(x):\mathbb{R}\to \mathbb{R}$, and $v=(v_1,v_2,..,v_N)$ be a vector. Applying $f$ on $v$ pointwise is $f(v)=(f(v_1),f(v_2),...,f(v_N))$.</p>
-<p>In theory, one can choose $\sigma_i$ to be all different, but in practice, people tend to choose one one nonlinear function in a neural network, ie $\sigma_i=\sigma$.</p>
+<p>In theory, one can choose $\sigma_i$ to be all different, but in practice, people tend to choose one nonlinear function in a neural network, ie $\sigma_i=\sigma$.</p>
 
 </div>
 </div>
@@ -7829,7 +7829,7 @@ $$
 \text{ReLu}(x)&amp;=1/2(x+|x|)
 \end{align*}
 $$
-Note that ReLu(x)=0 if $x&lt;0$ and Relu(x)=x if $x\geq 0$. If we use Relu as the non-linear function, then when a neural process information and recieve a negative value, it will pass $0$ to the neurons in the next layer, ie it <strong>deactivates</strong> its output, and it only activates its output if the result is positive. I hope this justify the name activation function used to refer to non-linear functions.</p>
+Note that ReLu(x)=0 if $x&lt;0$ and Relu(x)=x if $x\geq 0$. If we use ReLu as the non-linear function, then when a neuron processes information and recieves a negative value, it will pass $0$ to the neurons in the next layer, ie it <strong>deactivates</strong> its output, and it only activates its output if the result is positive. I hope this justify the name activation function used to refer to non-linear functions.</p>
   </div>
 </div>
 </div>
@@ -8157,13 +8157,14 @@ tensor([-0.6838, -0.4431, -0.2809], requires_grad=True)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Universal-Approximation">Universal Approximation<a class="anchor-link" href="#Universal-Approximation">¶</a></h1>
+<h1 id="Universal-Approximation">Universal Approximation Theorems<a class="anchor-link" href="#Universal-Approximation">¶</a></h1>
 <div style="font-size: 18px; text-align: center;">
 <p>A neural network is defined by its weight matrices $W_i$ and bias vectors $b_i$, collectively known as parameters and denoted by $P = (W_1, W_2, \ldots, W_L, b_1, \ldots, b_L)$. These parameters can be thought long vector of dimension $K$ for some $K \in \mathbb{N}$, representing a point $P$ in $\mathbb{R}^K$. Each point corresponds uniquely to a neural network instance, denoted $NN_P$, which is structured according to the network's fixed architecture. This parameter-to-network mapping can be expressed as:
 $$
 P \mapsto NN_P
 $$
-The primary task of machine learning is to select the parameter $P$ that make $NN_P$  best approximates the function of interest. This point of view allow us to see ML is a techique of function approximation much like that of Fourier transform and Taylor expansion. One obvious question is what kind of function can be approximated by neural networks. The answer of this question coming from universal approximation theorems which we are now turn to in the next section.</p>
+The primary task of machine learning is to select the parameter $P$ that make $NN_P$  best approximates the function of interest. This point of view allow us to see ML is a techique of function approximation much like that of Fourier series and Taylor expansion. One obvious question is what kind of function can be approximated by neural networks. The answer of this question coming from universal approximation theorems which we are now turn to.
+First, we look at a theorem due to G. Cybenko in his paper <strong><a href="https://web.njit.edu/~usman/courses/cs677/10.1.1.441.7873.pdf" target="_blank">Approximation by Superpositions of a Sigmoidal Function</a></strong></p>
 </div>
 </div>
 </div>
@@ -8177,7 +8178,7 @@ The primary task of machine learning is to select the parameter $P$ that make $N
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
   <div style="background-color: #EADCB9; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
 
-<p><strong>Universal Approximation Theorem, G Cybenko</strong>
+<p><strong>Universal Approximation Theorem, G. Cybenko:</strong>
 The space $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T x + b_i) \mid y_i \in \mathbb{R}^d \right\} $ is dense in $ \mathcal{C}(I_d, \mathbb{R}) $, where $ \sigma: \mathbb{R} \to \mathbb{R} $ is a fixed discriminatory function, to be defined below.</p>
   </div>
 </div>
@@ -8210,7 +8211,7 @@ for all $y \in \mathbb{R}^n$ and $\theta \in \mathbb{R}$ implies that $\mu = 0$.
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
   <p><strong>Proof</strong></p>
   <div style="font-size: 18px; text-align: center;">
-<p>Note that  $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T x + b_i) \mid y_i \in \mathbb{R}^d \right\} $ is a linear subspace of $\mathcal{C}(I_d,\mathbb{R})$. Assume it is not dense, then its closure $\bar{N_2}$ is proper Banach subspace of $\mathcal{C}$. We can define a linear functional $\ell:\bar{N_2}\to \mathbb{R}$ to be zero. Since $\bar{N_2}$ is a proper subspace, the Hanh-Banach's theorem allows us to extend $\ell$ to all of $\mathcal{C}$ such that $\ell(f)=0$ if $f\in \bar{N_2}$ and $\ell(f)\neq 0$ for some $f\notin \bar{N_2}$. In particular, there exist $f_0\in \mathcal{C}$ such that $\ell(f_0)\neq 0$.</p>
+<p>Note that  $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T x + b_i) \mid y_i \in \mathbb{R}^d \right\} $ is a linear subspace of $\mathcal{C}(I_d,\mathbb{R})$. Assume it is not dense, then its closure $\bar{N_2}$ is a proper Banach subspace of $\mathcal{C}$. We can define a linear functional $\ell:\bar{N_2}\to \mathbb{R}$ to be zero. Since $\bar{N_2}$ is a proper subspace, the Hanh-Banach's theorem allows us to extend $\ell$ to all of $\mathcal{C}$ such that $\ell(f)=0$ if $f\in \bar{N_2}$ and $\ell(f)\neq 0$ for some $f\notin \bar{N_2}$. In particular, there exist $f_0\in \mathcal{C}$ such that $\ell(f_0)\neq 0$.</p>
 <p>Now follow Rieze-Markov-Kakutani representation theorem, we know there exist a positive Borel's measure $\mu$ on $I_d$ such that 
 $$
 \ell(f)=\int fd\mu
@@ -8229,7 +8230,8 @@ for all $f\in \mathcal{C}$. In particular $\int \sigma(y_i^Tx+b)d\mu=0$ for all 
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
   <div style="font-size: 18px; text-align: center;">
   <p>The next stage of the proof is to prove that the activation functions we have above is discriminatory with respect to the Lebesgue measure. This is true but we won't be proving it here.</p>
-<p>We can equip the space $\mathcal{C}(I_d,\mathbb{R})$ with the $L_p$ norm and there are similar results by Kurt Hornik in 1990.</p>
+  <p>We can equip the space $\mathcal{C}(I_d,\mathbb{R})$ with the $L_p$ norm, and there are similar results by Kurt Hornik in 1990 in his paper <strong><a href="https://www.sciencedirect.com/science/article/pii/089360809190009T" target="_blank">Approximation capabilities of multilayer feedforward networks</a></strong>.</p>
+
   </div>
 </div>
 </div>
@@ -8243,7 +8245,7 @@ for all $f\in \mathcal{C}$. In particular $\int \sigma(y_i^Tx+b)d\mu=0$ for all 
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
   <div style="background-color: #EADCB9; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
 
-  <p><strong>Theorem</strong>
+  <p><strong>Theorem, K. Hornik:</strong>
 The space $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T x + b_i) \mid y_i \in \mathbb{R}^d \right\} $ is dense in the space of $\mathcal{C}(I_d,\mathbb{R})$ when $\mathcal{C}$ is equipped with the $L_p$ norm with $1\leq p\leq \infty$ and $\sigma$ is a continuous, bounded and non-constant function.</p>
   </div>
 </div>
@@ -8802,9 +8804,10 @@ $$</p>
 <div style="font-size: 18px; text-align: center;">
 <p>Imagine we have a collection of news articles $\mathcal{C}=\{A_1,A_2,...,A_K\}$ and we want to classify them into $L$<strong>={sport, politics, health}</strong>. Each news article is a string of words. To process these articles, we need a way to represent each words numerically so that we can use mathematical techniques to do the classification task.</p>
 
-<p>Assume $A_i=v_1...v_L$ where $v_{k}$ are words used to composed $A_i$ and $L$ is the length of $A_i$. Let $\mathcal{W}=\{w_1,w_2,...,w_N\}$ be the set of vocabulary used to composed $\{A_1,...,A_K\}$, ordered in some manner. In the palance of natural language processing, $\mathcal{C}$ is refereed to as corpus and $\mathcal{W}$ is the dictionary.</p>
-<p>The goal is to represent $w_i$ numerically, one naive way to do this is to use number 1 to represent $w_1$, 2 to represent $w_2$, and so on. But the natural number has ordered structure, while we can't quite see that with words. So instead we should use vectors to represent words. More precisely, we want to find an embedding $E:\mathcal{W}\to \mathbb{R}^d$ for some $d$. One way to do this is to take $d=|\mathcal{W}|=N$ and send $w_i$ to the standard unit vector $e_i\in \mathbb{R}^N$, this is known as the one hot encoding. However, there are several issue with this method. First, the embedding dimension is high, for example there are around 600000 words in English. Second, $\mathbb{R}^N$ is a metric space, we would hope that that words $w_i$ and $w_j$ that are similar in meaning should be closer compare to those that are not, but every pair of different words has distance $\sqrt{2}$ in the one-hot-encoding.</p>
-<p>Continuous word embedding deal with the issues mentioned about the one one encoding. There is $d\ll |\mathcal{W}|$ and a map $E:\mathcal{W} \to \mathbb{R}^d$ that allow one to encoder each word as a vector where word with similar meaning stay close to one another. This is not a math statement but rather an observed fact.</p>
+<p>Assume $A_i=v_1...v_L$ where $v_{k}$ are words used to write $A_i$ and $L$ is the length of $A_i$. Let $\mathcal{W}=\{w_1,w_2,...,w_N\}$ be the set of vocabulary used to compose $\{A_1,...,A_K\}$, ordered in some manner. In the palance of natural language processing, $\mathcal{C}$ is refereed to as a corpus and $\mathcal{W}$ is the dictionary.</p>
+<p>The goal is to represent $w_i$ numerically, one naive way to do this is to use number 1 to represent $w_1$, 2 to represent $w_2$, and so on. But the natural number has ordered structure, while we can't quite see that with words. So instead we should use vectors to represent words. More precisely, we want to find an embedding $E:\mathcal{W}\to \mathbb{R}^d$ for some $d$. One way to do this is to take $d=|\mathcal{W}|=N$ and send $w_i$ to the standard unit vector $e_i\in \mathbb{R}^N$, this is known as the one hot encoding. However, there are several issue with this method. First, the embedding dimension is large, for example there are around 600000 words in English. Second, $\mathbb{R}^N$ is a metric space, we would hope that that words $w_i$ and $w_j$ that are similar in meaning should be encoded closer compare to those that are not, but every pair of different words has distance $\sqrt{2}$ in the one-hot-encoding.</p>
+<p>Continuous word embedding deal with the issues mentioned about the one one encoding. There is $d\ll |\mathcal{W}|$ and a map $E:\mathcal{W} \to \mathbb{R}^d$ that allow one to encoder each word as a vector where word with similar meaning stay close to one another. This is not a mathematical statement but rather an observed fact. We recommend the paper <a href="https://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf" target="_blank">A Neural Probabilistic Language Model</a> by Bengio et al for detail.
+</p>
 <p>The classification problem mention in the beginning now can be seen as classification of sequences of various length where each terms of the sequences are in $\mathbb{R}^d$. A more general set up is having finite sequence $x_1,x_2,...,x_L$ in $\mathbb{R}^d$, find a map $f$ to the output space $Y$, which can be continuous or discreet. This is an example of time series analysis. To deal with time series, we introduce  recurrent neural network.</p>
 </div>
 </div>
