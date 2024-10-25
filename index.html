@@ -7640,7 +7640,7 @@ a.anchor-link {
                       <li style="margin-bottom: 5px;">
                           <p><strong>RNN-based Language Model</strong></p>
                           <ul style="margin-top: 0;">
-                            <li style="margin-bottom: 5px;">6.1 n-Gram Model</li>
+                            <li style="margin-bottom: 5px;">6.1 The n-Gram Language Model</li>
                         </ul>
                       </li>
                       <li style="margin-bottom: 5px;">
@@ -9300,10 +9300,14 @@ step 9999: train loss 0.2718, val loss 4.1391
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="The-n-gram-Language-Model">6.1 The n-gram Language Model<a class="anchor-link" href="#The-n-gram-Language-Model">¶</a></h2>
 <div style="font-size: 18px; text-align: center;">
-<p>We've seen that the RNN model earlier attempts to approximate $P(w_{L+1}|w_1,...,w_L)$. Another way to get this value is to actually count it, since this is a finite system. This is known as the <strong>n-gram</strong> model. Allow me to explain the 3-gram model and then you'll understand the n-gram model. Let's say we want to predict the next word based on 3 words before it that imitate a text $\mathcal{T}$, ie $\mathcal{T}$ is the training data. First we can ask what are possible combination of 3 words there is. If the text $\mathcal{T}$ is based on 1000 words, then there are $1000^3$ possible combination of 3 words. Next for each of the combination $w_1w_2w_3$, we count its occurence in the text, and cound what are the word that come after it and in what frequency, from here we can compute the exact probability.</p>
+<p>We've seen that the RNN model earlier attempts to approximate $P(w_{L+1}|w_1,...,w_L)$. Another way to get this probability distribution is to actually count it, since this is a finite system. This is known as the <strong>n-gram</strong> model. Allow me to explain the 3-gram model and then you'll understand the n-gram model. Let's say we want to predict the next word based on 3 words before it that imitates a text $\mathcal{T}$, ie $\mathcal{T}$ is the training data. First, we can ask what the possible combination of 3 words are. If the text $\mathcal{T}$ is based on 1000 words, then there are $1000^3$ possible of 3 words sentences. Next for each of the combination $w_1w_2w_3$, we count its occurence in the text, and cound what are the word that come after it and in what frequency, from here we can compute the exact probability.</p>
 <p>Our goal here is not to study the n-gram model itself, but to use it to help us understand better what the RNN and other lanaguage model does.</p>
-<p>Now what are some of the problem encounter by the n-gram model? First, one main issue is that the n-gram model would give uniform distribution for sequence of words that doesn't appear in the text. Consider creating an 2-gram model based on a text that the sequence <strong>cat loves</strong> doesn't exist, when we ask the model to predict what come next after this sequnce, it will predict anyting can happen with eqaul probablity. We don't want something like that. The RNN model takes input as sequence of vectors, and it can process any sequence, so it doesn't face the problem that n-gram model has. One way one hope the RNN give good prediction is as follow: During embedding, as the model look through the text, it learns that the embedding of the word <strong>like</strong> and <strong>love</strong> are close, and it has seen what the sequence <strong>cat likes</strong> in the text, this allow us to give a non-uniform distribution for the <strong>$P(.|\text{cat loves})$</strong> based on what it seen for <strong>cat likes</strong>. <strong>One question one can ask is does does the RNN do more than an modifcation of the n-gram model?</strong> By modified RNN here we mean to the model first regroup all possible 3 words sentences based on their similar meaning and then do the 3-gram model on that.</p>
-<p>The hope here is that embedding learned during the training of the RNN is a way that allow us to embed each word in $\mathbb{R}^N$ that allow words with similar meaning to be nearby.</p>
+<p>Now what are some of the problem encounter by the n-gram model? First, one main issue is that the n-gram model would give uniform distribution for any sequence of words that doesn't appear in the text.
+   Consider creating an 2-gram model based on a text that the sequence <strong>cat loves</strong> doesn't exist, when we ask the model to predict what word come next after this sequnce, it will predict anyting can happen with eqaul probablity.
+    We don't want something like that. The RNN model takes input as sequence of vectors, and it can process any sequence, so it doesn't face the problem that n-gram model has. One way one hope the RNN give good prediction is as follow: During embedding, as the model look through the text, 
+    it learns that the embedding of the word <strong>like</strong> and <strong>love</strong> are close, and it has seen the sequence <strong>cat likes</strong> in the text, this allow us to give a non-uniform distribution for the <strong>$P(.|\text{cat loves})$</strong> based on what it seen for <strong>cat likes</strong>.
+     <strong>One question one can ask is does the RNN do more than a modifcation of the n-gram model?</strong> By modified RNN here we mean something like this: the model first regroup all possible 3 words sentences based on their similar meaning and then does the 3-gram model on that.</p>
+<p>The hope here is that the embedding learned during the training of the RNN is a way that allows us to embed each word in $\mathbb{R}^d$, making words with similar meaning to be nearby.</p>
 </div>
 </div>
 </div>
@@ -9317,7 +9321,8 @@ step 9999: train loss 0.2718, val loss 4.1391
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Transformer-Model">7. Transformer Model<a class="anchor-link" href="#Transformer-Model">¶</a></h1>
 <div style="font-size: 18px; text-align: center;">
-  <p>Transformer was first introduced by Vaswani et al., in 2017 in the widely cited paper <strong><a href="https://doi.org/10.48550/arXiv.1706.03762" target="_blank">"Attention Is All You Need"</a></strong>, where the authors tested it as a neural network-based machine translation model. One of the key ingredients in the transforms model is <strong>self attention</strong> mechanism. <strong>Andrej Karpathy</strong> thinks of attention mechanism as a way for words in a sentence to communicate with each other. The following presentation is how I like to think about the transformers.</p>
+  <p>Transformer was first introduced by Vaswani et al., in 2017 in the widely cited paper <strong><a href="https://doi.org/10.48550/arXiv.1706.03762" target="_blank">"Attention Is All You Need"</a></strong>, where the authors tested it as a neural network-based machine translation model. 
+    One of the key ingredients in the transformer model is <strong>self attention</strong> mechanism. <strong>Andrej Karpathy</strong> thinks of attention mechanism as a way for words in a sentence to communicate with each other. The following presentation is how I like to think about the transformers.</p>
 
 </div>
 </div>
@@ -9332,9 +9337,11 @@ step 9999: train loss 0.2718, val loss 4.1391
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Decoder-only-transformer">7.1 Decoder only transformer<a class="anchor-link" href="#Decoder-only-transformer">¶</a></h2>
 <div style="font-size: 18px; text-align: center;">
-<p> In the above RNN based language model, we can think of this as the RNN take a sequence $w_1w_2...w_N$ and then turn it to sequence of vectors $x_1x_2...x_N$ via continuous word embedding, and condense this sequence to get $h_1,h_2,...h_N$, and then we use this $h_N$ to predict the next word. We can think of $h_i$ as contain richer and richer information about the sequence $x_1...x_N$ as $i$ increases.</p>
-<p>The way RNN condense the sequence $x_1x_2...x_N$ is highly non-linear, and highly non-commutative and this makes it hard approximate its partial derivative which leads to ineffective learning. The transformer model is somewhat less non-commutative and look linear, and in practice it turns out to be a lot easier to train.</p>
-<p>Now say we have the sequence $x_1,x_2,...x_N$, the vector 
+<p> In the above RNN-based language model, the RNN takes a sequence of words $w_1w_2...w_N$ and then turns it to sequence of vectors $x_1x_2...x_N$ via continuous word embedding, and condenses it to get the sequence of hidden vectors $h_1,h_2,...h_N$, and we use $h_N$ to predict the next word. 
+  We can think of $h_i$ as containing richer and richer information about the sequence $x_1...x_N$ as $i$ increases.</p>
+<p>The way RNN condenses the sequence $x_1x_2...x_N$ is highly non-linear and highly non-commutative, which makes it hard to approximate its partial derivatives, leading to ineffective learning. 
+  The transformer model is somewhat less non-commutative and look linear, and in practice it turns out to be a lot easier to train.</p>
+<p>Now say we have a sequence $x_1,x_2,...x_N$, the vector 
 $$
 v=x_1+x_2+...+x_N
 $$
@@ -9342,22 +9349,24 @@ could contain the information of a sequence $x_1x_2..x_N$, but probably we shoul
 $$
 v=a_1x_1+a_2x_2+....+a_Nx_N
 $$
-with $a_1,a_2,...a_N$ are some real numbers. The appropriate choice of $a_1,...,a_N$ would give us a represention of the sentence $x_1...x_N$. The transformer model suggests somewhat different from this, it suggests we should upgrade the embedding of each word $x_i$ in the sentence to incooperate the context it is in.This context enrichment process takes embedding vector $x_i\in \mathbb{R}^d$ to context awared vector $y_i=a_1^ix_1+a_2^ix_2+....+a_N^ix_N$ of the same dimension. The coefficient $a_j^i$ depends on both $x_i$ and $x_j$. The idea is that $a_j^i$ tell us how much $x_j$ attends to $x_i$, therefore the name attention mechanism.. Further more, instead of combining the vectors $x_j$ themselves, the model uses another linear transformed of $x_j$ call value vectors, denoted by $v_j$. Here is the summery of how the model work roughly.</p>
+where $a_1,a_2,...a_N$ are some real numbers. The appropriate choice of $a_1,...,a_N$ would give us a represention of the sentence $x_1...x_N$. The transformer model suggests somewhat different from this, it suggests we should upgrade the embedding of each word $x_i$ in the sentence to incooperate the context it is in.
+ This context enrichment process takes embedding vector $x_i\in \mathbb{R}^d$ to context-aware vector $y_i=a_1^ix_1+a_2^ix_2+....+a_N^ix_N$ of the same dimension. 
+ The coefficient $a_j^i$ should depend on both $x_i$ and $x_j$. The idea is that $a_j^i$ tells us how much $x_j$ attends to $x_i$, therefore the name attention mechanism. Furthermore, instead of combining the vectors $x_j$ themselves, the model uses another linear transformed of $x_j$ call value vectors, denoted by $v_j$. Here is the summery of how the model work roughly.</p>
 </div>
 <div style="font-size: 18px">
 <ol>
 <li>Convert $x_j$ to $q_j$,$k_j$ and $v_j$, called query, key and value of $x_j$, respectively.</li>
-<li>Compute dot product $e_j^i=(q_i,k_j)$, called scores.</li>
-<li>Turn the score vector $E^i=(e_1^i,...,e_N^j)$ into convex hall coefficents vector via softmax, ie $A^i=\text{SoftMax}(E^i)$, $A^i$ is called attention.</li>
+<li>Compute the dot product $e_j^i=(q_i,k_j)$, called scores.</li>
+<li>Turn the score vector $E^i=(e_1^i,...,e_N^j)$ into convex hall coefficents vector via softmax, i.e., $A^i=\text{SoftMax}(E^i)$, where $A^i$ is called attention.</li>
 <li>Compute the convex combination $y_i=a_1^iv_1+...+a_N^iv_N$, where $A^i=(a_1,...,a_n)$.</li>
 </ol>
 </div>
 <div style="font-size: 18px; text-align: center;">
 <p>Now we transform $x_1,x_2,...x_N$ to $y_1,y_2,...,y_N$. We want to think of $y_i$ as an enriched version of $x_i$, based on the context sequence $x_1...x_N$.</p>
 <p>Let me explain what I think could be the motivation, people in ML community has several different way of thinking about this and here I present what I think what happen.</p>
-<p>First, how do we convert $x_i$ to key, query and value vectors, this is done by multiplying $x_i$ by matrices $W_K,W_Q$, and $W_V$, and these matrices are learned during training. This allows us to give different represent of $x_i$ for different usages. Computing the dot product to get $e^i_j$ allow us to measure a sense of interaction/relation between $x_i$ and $x_j$ and this computation isn't the direct dot product of these two vectors but rather their other representations.</p>
-<p>Onbiously, the computation of $y_i$ are highly non-linear since it involve using SoftMax function. However, because we only use that as a linear coefficent, this make $y$ like a "linear combination" of $x$. Next, we note that $y_i$ is independent of the order of $x_j$, this is rather different from the case with RNN.</p>
-<p>The process we've seen so far is called self attention (actually almost). In this note, I refer to it as attention. Next we write down equation for attention mechanism that is more efficent and add correction term.
+<p>First, how do we convert $x_i$ to key, query and value vectors? This is done by multiplying $x_i$ by matrices $W_K,W_Q$, and $W_V$, respectively, and these matrices are learned during training. This allows us to give different represent of $x_i$ for different usages. Computing the dot product to get $e^i_j$ allow us to measure a sense of interaction/relation between $x_i$ and $x_j$ and this computation isn't the direct dot product of these two vectors but rather their other representations.</p>
+<p>Onbiously, the computation of $y_i$ are highly non-linear since it involves using the SoftMax function. However, because we only use that as a linear coefficents, this makes $y$ like a "linear combination" of $x$. Next, we note that $y_i$ is independent of the order of $x_j$, this is rather different from the case with RNN.</p>
+<p>The process we've seen so far is called self attention (actually almost). In this note, I refer to it as attention. Next we write down equation for attention mechanism that is more efficent, and add correction term.
 First we make a matrix $X=[x_1,x_2...,x_N]$, and the equation for key, query, value, score and attention is as follow</p>
 </div>
 <div style="font-size: 18px">
@@ -9367,7 +9376,7 @@ First we make a matrix $X=[x_1,x_2...,x_N]$, and the equation for key, query, va
 <li>Attention = $ \text{SoftMax}\left(\dfrac{K^T Q}{\sqrt{d}}\right) $</li>
 <li>Attn($X$) = $\text{SoftMax}\left(\dfrac{K^T Q}{\sqrt{d}}\right)V = \text{Attention} \times V $</li>
 </ol>
-<p>The division by $\sqrt{d}$, where $d$ is the dimension of the embedding, is to increase the variant of the attention, avoiding the issue of just averaging $v_i$, or just selecting one vector. As we discuss earlier, we tend to think of the computation of the attention is a linear process, so to introduce some non-linearity, we pass the attended vectors through a a feed forward neural network. 
+<p>The division by $\sqrt{d}$, where $d$ is the dimension of the embedding, is to increase the variant of the attention, avoiding the issue of just averaging $v_i$, or just selecting one vector. As we discuss earlier, we tend to think of the computation of the attention is a linear process, so to introduce some non-linearity, we pass the attended vectors through a feed-forward neural network. 
 $$
 \text{FFN}(Y)=W_2\text{ReLu}(W_1Y+b_1)+b_2
 $$
