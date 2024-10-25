@@ -9342,7 +9342,7 @@ could contain the information of a sequence $x_1x_2..x_N$, but probably we shoul
 $$
 v=a_1x_1+a_2x_2+....+a_Nx_N
 $$
-with $a_1,a_2,...a_N$ are some real numbers. The appropriate choice of $a_1,...,a_N$ would give us a represention of the sentence $x_1...x_N$. The transformer model suggests somewhat different from this, it suggests we should upgrade the embedding of each word $x_i$ in the sentence to incooperate the context it is in. This context enrichment take embedding vector $x_i\in \mathbb{R}^d$ to $y_i=a_1^ix_1+a_2^ix_2+....+a_N^ix_N$ of the same dimension. The coefficient $a_j^i$ depends on both $x_i$ and $x_j$. Further more, instead of combining the vectors $x_j$ themselves, the model uses another linear transformed of $x_j$ call value vectors, denoted by $v_j$. Here is the summery of how the model work roughly.</p>
+with $a_1,a_2,...a_N$ are some real numbers. The appropriate choice of $a_1,...,a_N$ would give us a represention of the sentence $x_1...x_N$. The transformer model suggests somewhat different from this, it suggests we should upgrade the embedding of each word $x_i$ in the sentence to incooperate the context it is in.This context enrichment process takes embedding vector $x_i\in \mathbb{R}^d$ to context awared vector $y_i=a_1^ix_1+a_2^ix_2+....+a_N^ix_N$ of the same dimension. The coefficient $a_j^i$ depends on both $x_i$ and $x_j$. The idea is that $a_j^i$ tell us how much $x_j$ attends to $x_i$, therefore the name attention mechanism.. Further more, instead of combining the vectors $x_j$ themselves, the model uses another linear transformed of $x_j$ call value vectors, denoted by $v_j$. Here is the summery of how the model work roughly.</p>
 </div>
 <div style="font-size: 18px">
 <ol>
