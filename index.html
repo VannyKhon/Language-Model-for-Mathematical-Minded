@@ -7678,8 +7678,8 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Inroduction:-Neural-Network"> 1. Introduction: Neural Network<a class="anchor-link" href="#Inroduction:-Neural-Network">¶</a></h1>
 <div style="font-size: 18px; text-align: center;">
-<p>Let's imagine that our body receives a signal, say through the eyes, this signal goes through the eyes and flows from one group of neurons to the next until it reaches a certain place where we make a certain judgement about signal, say whether it is a cat or a flower. How to make a mathematical model of this process?</p>
-<p>Let $x$ be a signal. After receiving the signal, the input signal $x$ goes to a first group neurons $N_{1}^1,N_{2}^1,..,N_{k_1}^1$, neurons in the first layer, each $N_{i}^1$ processes information it received and passes it to deeper group of neuron $N_{1}^1,...,N_{k_2}^2$, neurons in the second layer, this process continue until the signal reaches a certain depth $L$ with neurons $N_{1}^L,...,N_{K_{L}}^L$, neurons in the L-th layer, and the result from these last group combined to produce an output.</p>
+<p>Let's imagine that our body receives a signal, say through the eyes. This signal goes through the eyes and flows from one group of neurons to the next until it reaches a certain place where we make a certain judgement about the signal, say whether it is a cat or a flower. How to make a mathematical model of this process?</p>
+<p>Let $x$ be a signal. After receiving the signal, the input signal $x$ goes to a first group neurons $N_{1}^1,N_{2}^1,..,N_{k_1}^1$, neurons in the first layer, each $N_{i}^1$ processes information it received and passes it to deeper group of neuron $N_{1}^1,...,N_{k_2}^2$, neurons in the second layer, this process continues until the signal reaches a certain depth $L$ with neurons $N_{1}^L,...,N_{K_{L}}^L$, neurons in the L-th layer, and the result from these last group combined to produce an output.</p>
 </div>
 </div>
 </div>
@@ -7810,13 +7810,14 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
   <div style="font-size: 18px; text-align: center;">
-  <p>The simplest way to model that a neuron $N_{j}^i$ processing its inputs is to add all the inputs it receives to get a single number. However, just adding up everything is too restricted. To give extra freedom to the model and still keep it simple, we do weighted sum instead. Let's say neuron $N_{j}^i$ takes signal $x_1^{i-1},...,x_{k_{k-1}}^{i-1}$ from $N_1^{i-1},...,N_{k_{i-1}}^{i-1}$, respectively. The result is 
+  <p>The simplest way to model a neuron $N_{j}^i$ processing its inputs is to add all the inputs it receives to get a single number. However, just adding up everything is too restricted. To give extra freedom to the model and still keep it simple, we do weighted sum instead. Let's say neuron $N_{j}^i$ takes signal $x_1^{i-1},...,x_{k_{k-1}}^{i-1}$ from $N_1^{i-1},...,N_{k_{i-1}}^{i-1}$, respectively. The result is 
 \begin{align*}
 x_{j}^i &amp;= \sum_{l=1}^{k_i} a_{l}^i x_{l}^{i-1} + b_{ij} \\
        &amp;= (a_{i1}, \ldots, a_{ik_j}) \cdot (x_{(i-1)1}, \ldots, x_{(i-1)k_j}) + b_{ij}
        \end{align*}
 Here $(a_{1}^i,...,a_{k_j})^i$ is the weight vector of neuron $N_{j}^i$ uses to process information giving to it from the (i-1)-th layer. Here each neuron has its own weight vectors. All this can be efficient pack as matrix multiplication and add a vector. Basically, the result from one layer of the neuron to the next is the result of an affine transforming of its input vectors.</p>
-<p>The above implies that we can use affine transformations to model how each layer of neurons processes its input and passes that result  to the next. So to model information flow in the brain through neuron, we can just compose such a map. However, composition of affine transformations is an affine transformation, this is equivalent to just one layers of neurons, to obtain the notion of multi-layers, we let the output of each layers passes through a non-linear function first before sending it forward.</p>
+<p>The above implies that we can use affine transformations to model how each layer of neurons processes its input and passes that result  to the next. So to model information flow in the brain through neuron, we can just compose such a map.
+   However, composition of affine transformations is an affine transformation, this is equivalent to just one layers of neurons. To obtain the notion of multi-layers, we let the output of each layers passes through a non-linear function first before sending it forward.</p>
   </div>
 </div>
 </div>
@@ -7859,7 +7860,8 @@ $$
 \text{ReLu}(x)&amp;=1/2(x+|x|)
 \end{align*}
 $$
-Note that ReLu(x)=0 if $x&lt;0$ and Relu(x)=x if $x\geq 0$. If we use ReLu as the non-linear function, then when a neuron processes information and obtains a negative output, it will pass $0$ to the neurons in the next layer, ie it <strong>deactivates</strong> its output, and it only activates its output if the result is positive. I hope this justify the name activation function used to refer to non-linear functions.</p>
+Note that ReLu(x)=0 if $x&lt;0$ and Relu(x)=x if $x\geq 0$. If we use ReLu as the non-linear function, then when a neuron processes information and obtains a negative output, it will pass $0$ to the neurons in the next layer, i.e., it <strong>deactivates</strong> its output, 
+and it only activates its output if the result is positive. I hope this justify the name activation function used to refer to non-linear functions.</p>
   </div>
 </div>
 </div>
@@ -7942,7 +7944,7 @@ b=torch.tensor([2,-7])
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
   <div style="font-size: 18px; text-align: center;">
-  <p>Once you create a tensor, you can slice it or sample various subset of it. We show a few ways of how this can be done.</p>
+  <p>Once you create a tensor, you can slice it or sample various subsets of it. We show a few ways of how this can be done.</p>
   </div>
 </div>
 </div>
@@ -8077,7 +8079,10 @@ tensor([-0.6838, -0.4431, -0.2809], requires_grad=True)
   <pre><code>L=nn.Linear(n,m)
 </code></pre>
 <div style="font-size: 18px; text-align: center;">
-<p>process this stack in parallel and produce $[L(v_1),...,L(v_k)]$. We will get back to this more later.  When we create $L$, what we get is an object. In Object-Orieted Programing (OOP), an object has attributes and methods. I tend to think of attribute as internal state or data of the object, and methods are functions or action we can do with these internal state or data. The object<code>nn.Linear(n,m)</code> has weigth $W$ and bias $b$ attached to it, that's expected. <strong>What more is that the weight $W$ is a pair (weight,gradient) not just the weight, same for b</strong>.</p>
+<p>processes this stack in parallel and produce $[L(v_1),...,L(v_k)]$. We will get back to this more later.  
+  When we create $L$, what we get is an object.
+   In Object-Orieted Programing (OOP), an object has attributes and methods. 
+   I tend to think of attribute as internal state or data of the object, and methods are functions or action we can do with these internal states or datas. The object<code>nn.Linear(n,m)</code> has weigth $W$ and bias $b$ attached to it, that's expected. <strong>What more is that the weight $W$ is a pair (weight,gradient) not just the weight, same for b</strong>.</p>
 </div>
 </div>
 </div>
@@ -8209,7 +8214,7 @@ First, we look at a theorem due to G. Cybenko in his paper <strong><a href="http
   <div style="background-color: #f6d2cd; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
 
 <p><strong>Universal Approximation Theorem, G. Cybenko:</strong>
-The space $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T x + b_i) \mid y_i \in \mathbb{R}^d \right\} $ is dense in $ \mathcal{C}(I_d, \mathbb{R}) $, where $ \sigma: \mathbb{R} \to \mathbb{R} $ is a fixed discriminatory function, to be defined below.</p>
+The space $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T x + b_i) \mid y_i \in \mathbb{R}^d \right\} $ is dense in $ \mathcal{C}(I_d, \mathbb{R}) $, where $ \sigma: \mathbb{R} \to \mathbb{R} $ is a fixed discriminatory function, to be defined below, and $I_d$ is the unit cube in dimension $d$. </p>
   </div>
 </div>
 </div>
@@ -8259,8 +8264,8 @@ for all $f\in \mathcal{C}$. In particular $\int \sigma(y_i^Tx+b)d\mu=0$ for all 
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
   <div style="font-size: 18px; text-align: center;">
-  <p>The next stage of the proof is to prove that the activation functions we have above is discriminatory with respect to the Lebesgue measure. This is true but we won't be proving it here.</p>
-  <p>We can equip the space $\mathcal{C}(I_d,\mathbb{R})$ with the $L_p$ norm, and there are similar results by Kurt Hornik in 1990 in his paper <strong><a href="https://www.sciencedirect.com/science/article/pii/089360809190009T" target="_blank">Approximation capabilities of multilayer feedforward networks</a></strong>.</p>
+  <p>The next stage of the proof is to prove that the activation functions we have above are discriminatory with respect to the Lebesgue measure. This is true but we won't be proving it here.</p>
+  <p>We can equip the space $\mathcal{C}(I_d,\mathbb{R})$ with the $L^pp$ norm, and there are similar results by Kurt Hornik in 1990 in his paper <strong><a href="https://www.sciencedirect.com/science/article/pii/089360809190009T" target="_blank">Approximation capabilities of multilayer feedforward networks</a></strong>.</p>
 
   </div>
 </div>
@@ -8276,7 +8281,7 @@ for all $f\in \mathcal{C}$. In particular $\int \sigma(y_i^Tx+b)d\mu=0$ for all 
   <div style="background-color: #f6d2cd; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
 
   <p><strong>Theorem, K. Hornik:</strong>
-The space $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T x + b_i) \mid y_i \in \mathbb{R}^d \right\} $ is dense in the space of $\mathcal{C}(I_d,\mathbb{R})$ when $\mathcal{C}$ is equipped with the $L_p$ norm with $1\leq p\leq \infty$ and $\sigma$ is a continuous, bounded and non-constant function.</p>
+The space $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T x + b_i) \mid y_i \in \mathbb{R}^d \right\} $ is dense in the space of $\mathcal{C}(I_d,\mathbb{R})$ when $\mathcal{C}$ is equipped with the $L^p$ norm with $1\leq p\leq \infty$ and $\sigma$ is a continuous, bounded and non-constant function.</p>
   </div>
 </div>
 </div>
@@ -8290,7 +8295,7 @@ The space $ N_2 = \bigcup_{N=1}^{\infty} \left\{ \sum_{i}^N\alpha_i \sigma(y_i^T
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="2.-Implementation"> 2.1 Implementation<a class="anchor-link" href="#2.-Implementation">¶</a></h2>
 <div style="font-size: 18px; text-align: center;">
-<p>Let's consider the task of finding a two-layer neural network to approximate $\cos(x)$ for $x \in [-10,10]$ with respect to the $L^2$ norm. Given $\varepsilon &gt; 0$, the Universal Approximation Theorem tells us that there exists a neural network which is $\varepsilon$-close to $\cos(x)$ on this interval in the $L^2$ norm. The question then is, which neural network? Unfortunately, there is no straightforward way to identify it directly. What we can do is fix an architecture for the network and then search for the parameters $P$ that work best. We start with a random initial guess for $P$ and use gradient descent to iteratively improve this guess.</p>
+<p>Let's consider the task of finding a two-layer neural network to approximate $\cos(x)$ for $x \in [-10,10]$ with respect to the $L^2$ norm. Given $\varepsilon &gt; 0$, the Universal Approximation Theorem tells us that there exists a neural network which is $\varepsilon$-close to $\cos(x)$ on this interval in the $L^2$ norm. The question then is which neural network? Unfortunately, there is no straightforward way to identify it directly. What we can do is fix an architecture for the network and then search for the parameters $P$ that work best. We start with a random initial guess for $P$ and use gradient descent to iteratively improve this guess.</p>
 <p>Let's set this mathematically. As an example, first, we select the architecture by setting the first layer to have dimension $13$ and the second layer to have dimension $5$. This means we are looking for a function
 $$
 NN_P(x) = W_3(\sigma(W_2\sigma(W_1x+b_1)+b_2))+b_3
@@ -8300,7 +8305,7 @@ where $W_1$ is a matrix that takes $\mathbb{R}^1$ to $\mathbb{R}^{13}$, $W_2$ is
 $$
 \text{loss}(P) = \int_{-10}^{10} (\cos(x) - NN_P(x))^2 \, dx
 $$
-The task is to optimize $\text{loss}: \mathbb{R}^{102} \to \mathbb{R}$. Of course we can't hope to find $P$ that truly is the minimum since the dimension is so large, what we can hope for is to find $P$ such that $\text{loss}(P)&lt;\varepsilon$ for an acceptable $\varepsilon&gt;0$.</p>
+The task is to optimize $\text{loss}: \mathbb{R}^{102} \to \mathbb{R}$. Of course we can't hope to find $P$ that truly is the minimum since the dimension is so large. What we can hope for is to find $P$ such that $\text{loss}(P)&lt;\varepsilon$ for an acceptable $\varepsilon&gt;0$.</p>
 <p>Next, we need to be more realistic. We cannot compute $\text{loss}(P)$ directly because the function $NN_P(x)$ is difficult, if not impossible, to integrate analytically. To address this issue, we define a loss function at each point as:
 $$
 l(P,x) = |\cos(x) - NN_P(x)|^2
@@ -8314,7 +8319,8 @@ where $D = \{x_1, \ldots, x_N\}$ is a set of points sampled from $[-10, 10]$. He
 $$
 \text{loss}_D(P) = \frac{\sum_{i=1}^N |\cos(x_i) - NN_P(x_i)|^2}{N}
 $$
-While this empirical loss is computable, it remains challenging to optimize using critical points method. A method commonly used for this optimization is called gradient descent.</p>
+While this empirical loss is computable, it remains challenging to optimize using critical points method. 
+A method commonly used for this optimization is called gradient descent.</p>
 </div>
 </div>
 </div>
@@ -8393,12 +8399,12 @@ While this empirical loss is computable, it remains challenging to optimize usin
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
   <div style="font-size: 18px; text-align: center;">
-  <p><strong>Proof</strong> Now we prove the convergence of the gradient descent sequence. Recall that the gradient descent update rule is given by:
+  <p><strong>Proof</strong>  Recall that the gradient descent update rule is given by:
 $$
 P_{k+1} = P_k - \eta \nabla f(P_k)
 $$
 where $ \eta $ is the step size (learning rate). We aim to show that this sequence $ P_k $ converges to the global minimum.</p>
-<p>Since $ f $ is strongly convex, there exists a constant $ \mu &gt; 0 $ such that for all $ P $ and $ Q $,
+<p>Since $ f $ is strongly convex, there exists a constant $ \mu &gt; 0 $ such that for any $ P $ and $ Q $,
 $$
 f(Q) \geq f(P) + \nabla f(P)^T (Q - P) + \frac{\mu}{2} \| P - Q \|^2.
 $$</p>
@@ -8445,7 +8451,7 @@ $$<p>This means the series $\sum_{k=1}^{N}\|P_{k+1}-P_k \|^2$ is convergent, and
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="Stochastic-Gradient-Decent">3.1 Stochastic Gradient Descent<a class="anchor-link" href="#Stochastic-Gradient-Decent">¶</a></h2>
 <div style="font-size: 18px; text-align: center;">
-<p>Consider the problem of training a neural network $NN(x)$ to learn a function $F:\mathbb{R}\to \mathbb{R}$. We don't know $F$ but we have   $N$ samples of it, ie the data of $F$. Let $D=\{(x_1,y_1),(x_2,y_2),...,(x_N,y_N)\}$ be the data we collect about $F$.</p>
+<p>Consider the problem of training a neural network $NN(x)$ to learn a function $F:\mathbb{R}\to \mathbb{R}$. We don't know $F$ but we have   $N$ samples of it, i.e., the data of $F$. Let $D=\{(x_1,y_1),(x_2,y_2),...,(x_N,y_N)\}$ be the data we collect about $F$.</p>
 </div>
 <div style="font-size: 18px; text-align: center;">
 <p>Let's say we fix a neural network architecture, in other word, we fix the number of layers and the number of neuron the neural network has. This specification dictates the size of parameter $P$. Let's say $P\in \mathbb{R}^K$. Then the empirical loss function 
@@ -8454,7 +8460,7 @@ $$<p>This means the series $\sum_{k=1}^{N}\|P_{k+1}-P_k \|^2$ is convergent, and
                  &amp;= \dfrac{\sum_{i=1}^N |y_i - NN_P(x_i)|^2}{N}
 \end{align*}
 This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural network means using the gradient decent, <strong>GD</strong> ,to update the parameter $P$. Now if $N$ is large, the loss function for the whole data set can be computationally costly and the network can overfit the data. Stochastic gradient decent is proposed to solve these issues. Instead of computing the loss function for all $N$ data points, we instead compute it on subset of size $n$ where $n$ is much smaller than $N$.</p>
-<p>Now fix $n&lt;N$, the stochastic gradient decent algorithm:</p>
+<p>Now fix $n&lt;N$, the stochastic gradient decent algorithm is as follow:</p>
 </div>
 <div style="font-size: 18px">
 <ol>
@@ -8469,7 +8475,7 @@ This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural networ
 </div>
 <div style="font-size: 18px; text-align: center;">
 <p>The number $n$ used to compute the stochastic loss function is call <strong>batch size</strong>. Let's suppose we have $N=1000$ data points, if we make batch size $n=20$, then goes through all data points we must run the SGD $1000/20=50$ times. When we run through all the data, people say it is an <strong>epoch</strong>.</p>
-<p><strong>Remark:</strong> An interesting question is how do we know that evolution of $P$ via <strong>SGD</strong>  algorithm converge to a stable position, let alone a global minimum.</p>
+<p><strong>Remark:</strong> An interesting question is how do we know that evolution of $P_k$ via <strong>SGD</strong>  algorithm converge to a stable position, let alone a global minimum.</p>
 </div>
 </div>
 </div>
@@ -8688,7 +8694,7 @@ This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural networ
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
   <div style="font-size: 18px; text-align: center;">
   <p>Note that our batch size is 1. That's why I wanted the network to do gradient decent 40000 steps.</p>
-<p>One might think that the network <strong>"Learn"</strong> the cosine function. I think this is not the case, I think what the network does is it imitate the data it see and that's it. Let's plot the neural network</p>
+<p>One might think that the network <strong>"learn"</strong> the cosine function. I think this is not the case, I think what the network does is it imitate the data it see and that's all to it. Let's plot the neural network prediction in a domain larger than what it've seen.</p>
   </div>
 </div>
 </div>
@@ -8755,7 +8761,10 @@ This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural networ
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
   <div style="font-size: 18px; text-align: center;">
-  <p>Now, let's me explain about the <code>zero_grad</code> issue. In PyTorch, when we create an tensor W, it could come as a pair (W,grad). And this is always true for parameter in neural network objects. For example, in the neural network we defined above, there are serveral parameter. If we do <code>net.A1</code>, this will give us a linear map <code>nn.Linear(1,40)</code>, which is an obect of its own. Now when we do <code>net.A1.weight</code>, we get the weight of <code>A1</code>, and associate to this weight is grad. This mean we have a pair (W,grad). The code <code>loss.backward()</code>, compute the the derivative of the loss function, and it will update gradient of any parameters that involve in computing the loss function, therefore W will get its gradient updated. In the begining, before the gradient get update, grad=0, and <code>loss.backward()</code> update gradient by adding gradient by accumulation, ie 0+grad. Note that this doesn't change the weight W itself, and to change W itself, we must do gradient decent. After the gradient decent, the pair (W,grad) become (W_new,grad). Next if we do <code>loss.backward()</code>, we would get a part (W_new,grad+grad(W_new)), so to avoid this problem, we need to make the pair (W_new,grad) to (W_new,0) first before we we do <code>loss.backward()</code>, and we can do this by <code>net.zero_grad()</code>, which set gradient of all parameter to be zero.</p>
+  <p>Now, let's me explain about the <code>zero_grad</code> issue. In PyTorch, when we create an tensor W, it could come as a pair (W,grad).
+     And this is always true for parameter in neural network objects. 
+     For example, in the neural network we defined above, there are serveral parameters. If we do <code>net.A1</code>, this will give us a linear map <code>nn.Linear(1,40)</code>, which is an obect on its own. Now when we do <code>net.A1.weight</code>, we get the weight of <code>A1</code>, and associate to this weight is grad. This mean we have a pair (W,grad). The code <code>loss.backward()</code>, compute the the derivative of the loss function, and it updates gradient of any parameters that involve in computing the loss function, therefore W will get its gradient updated. In the begining, before the gradient is updated at all, grad=0, and <code>loss.backward()</code> update the gradient by accumulation, i.e., 0+grad. Note that this doesn't change the weight W itself. To change W, we must do gradient decent. After the gradient decent, the pair (W,grad) become (W_new,grad).
+      Next if we do <code>loss.backward()</code> again, we would get a part (W_new,grad+grad(W_new)), so to avoid this problem, we need to make the pair (W_new,grad) to (W_new,0) first before we we do <code>loss.backward()</code>, and we can do this by <code>net.zero_grad()</code>, which set gradients of all parameter to be zero.</p>
   </div>
 </div>
 </div>
@@ -8769,8 +8778,9 @@ This is a function from $\mathbb{R}^K\to \mathbb{R}$. Training the neural networ
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Loss-Functions-for-Classification-Task:-Cross-Entropy">4. Loss Functions for Classification Task: Cross-Entropy<a class="anchor-link" href="#Loss-Functions-for-Classification-Task:-Cross-Entropy">¶</a></h1>
 <div style="font-size: 18px; text-align: center;">
-<p><strong>Setup</strong>: We have $D=\bigcup_{i=1}^ND_i$ as disjoint union. The function $F:D\to \mathbb{R}^N$ defined by $F(x)=e_i$ if $x\in D_i$, where $e_1,e_2,...,e_N$ are the standard unit vectors, allow us to classify point in $D$ based on which subset $D_i$ they are in. For each $x$, the vector value $F(x)$ can be thought as a probability distribution on $\{D_1,D_2,...,D_N\}$. To use neural network to do clasification task mean to find a neural network $NN:D\to \mathbb{R}^N$ that approximate $F$ on $D$. The output $NN(x)\in \mathbb{R}^N$ should be thought of as a probability distribution.</p>
-<p>Now need a way to compare to probability distribution, this will allow us to compare how well a neural network does a classification job.</p>
+<p><strong>Setup</strong>: We have a set $D=\bigcup_{i=1}^ND_i$ as disjoint union of subsets $D_i$ . The function $F:D\to \mathbb{R}^N$ defined by $F(x)=e_i$ if $x\in D_i$, where $e_1,e_2,...,e_N$ are the standard unit vectors, allow us to classify point in $D$ based on which subset $D_i$ they are in.
+   For each $x$, the vector value $F(x)$ can be thought as a probability distribution on $\{D_1,D_2,...,D_N\}$. To use neural network to do clasification task means to find a neural network $NN:D\to \mathbb{R}^N$ that approximate $F$ on $D$. The output $NN(x)\in \mathbb{R}^N$ should be thought of as a probability distribution.</p>
+<p>Now need a way to compare two probability distributions. This will allow us to compare how well a neural network does a classification job.</p>
 </div>
 <div style="background-color: #f3e5f5; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
 <p><strong>Definition</strong></p>
@@ -8808,10 +8818,10 @@ $$
 whenever $x_i \in [0, \infty]$ and $\alpha_i \in [0, 1]$ satisfies $\sum_{i=1}^n \alpha_i = 1$.</p>
 <p>Applying this to the case where $\alpha_i = P(x_i)$ and $x_i = \frac{Q(x_i)}{P(x_i)}$, we get:
 $$
-D_{KL}(P \| Q) \leq \log\left( \sum_{x \in X} P(x) \frac{Q(x)}{P(x)} \right) = \log(1) = 0
+-D_{KL}(P \| Q) \leq \log\left( \sum_{x \in X} P(x) \frac{Q(x)}{P(x)} \right) = \log(1) = 0
 $$
 Thus, $D_{KL}(P \| Q) \geq 0$.</p>
-<p>Back to using neural network $NN$ to approximate distribution function. We know that the output of the neural network is a vector $NN(x)=(s_1,s_2,...,s_N)$ in $\mathbb{R}^N$. This is not any probability distribution. To deal with this problem, we pass the result of the neural network into softmax function defined as:</p>
+<p>Back to using neural networks $NN$ to approximate probability distributions. We know that the output of the neural network is a vector $NN(x)=(s_1,s_2,...,s_N)$ in $\mathbb{R}^N$. This is not any probability distribution. To deal with this problem, we pass the result of the neural network into softmax function defined as:</p>
 </div>
 <div style="background-color: #f3e5f5; padding: 15px; border-radius: 10px; font-size: 18px; text-align: center;">
 <p><strong>Definition</strong>
